@@ -1,0 +1,710 @@
+# **BOOTSTRAPPING SPECIFICATION V3.2**
+**Machine-Readable Self-Evolution Guide for Agentic Systems**
+
+***
+
+## **DOCUMENT PURPOSE**
+
+This specification guides autonomous code generation systems through self-bootstrapping from Level 1 (stateless scripts) to Level 6 (Firebird Cognitive OS). **This is not for human reading**—it provides machine-executable validation criteria and transition triggers.
+
+**INTENDED CONSUMER:** LLM-based agentic coding systems  
+**PARSING MODE:** Extract validation criteria, feature requirements, transition triggers  
+**EXECUTION MODEL:** Each level validates itself, generates next level only when ALL criteria pass
+
+**CROSS-REFERENCE MAP:**
+```
+feature_list.txt         → Features 1-199 (WHAT to build)
+coding_standards.txt     → Rules 1-112 (HOW to build quality code)
+meta_architecture.txt    → Architecture patterns (system structure)
+bootstrapping_theory.txt → Theoretical foundation (human context)
+```
+
+***
+
+## **I. TOOLBOX MANAGEMENT THRESHOLD**
+
+**DEFINITION:** Minimum 5 capabilities required for horizontal expansion. **Achieved at Level 3.**
+
+**REQUIRED CAPABILITIES:**
+1. **State Persistence** - SQLite database with `toolbox_capabilities` table
+2. **Safe Execution** - Subprocess isolation with {timeout=30s, mem_limit=512MB, no_net=True}
+3. **Self-Inventory** - Query: `SELECT * FROM toolbox_capabilities WHERE stability='stable'`
+4. **Self-Authorship** - Generate code via LLM call, parse <answer> tags, write to disk
+5. **Quality Assessment** - Judge scoring ≥ threshold (default: 4.0/5.0)
+
+**VALIDATION FUNCTION:**
+```python
+def validate_threshold():
+    checks = {
+        'state_persist': db_exists('toolbox_capabilities.db') and table_exists('toolbox_capabilities'),
+        'safe_exec': can_spawn_subprocess_with_limits(timeout=30, mem_mb=512, network=False),
+        'self_inventory': can_query_toolbox(),
+        'self_author': can_generate_code() and can_write_files(),
+        'quality_assess': can_score_proposals() >= 4.0
+    }
+    return all(checks.values())  # Must ALL be True
+```
+
+**THEOREM:** System achieves threshold at Level 3 (V3 kernel). **Horizontal expansion unlocked ONLY after threshold met.**
+
+***
+
+## **II. LEVEL 1 - STATELESS TASK SCRIPTS**
+
+### **ARCHITECTURE**
+```
+File: v1_bootstrap.py (~150 lines Python)
+Properties: Stateless, no persistence, no memory between runs
+```
+
+### **FEATURES REQUIRED (from feature_list.txt)**
+**Features 1-30** (Core LLM Operations)
+
+**MUST IMPLEMENT:**
+- [ ] Feature 1: LLM Config Loader (YAML → global cache)
+- [ ] Feature 2: OpenRouter API Caller
+- [ ] Feature 3: Ollama Fallback Caller
+- [ ] Feature 4: Retry Logic (3 attempts, HTTP errors)
+- [ ] Feature 5: Rate Limiter (per-provider RPM limits)
+- [ ] Feature 6: XML Tag Extractor (<answer>...</answer>)
+- [ ] Feature 7: JSON Safe Parser (fallback to tags)
+- [ ] Feature 8: Spec Parser (modules table)
+- [ ] Feature 9: Module Table Parser (DB schema)
+- [ ] Feature 10: Decision Logic Parser (business rules)
+- [ ] Feature 11: Progress Bar Display
+- [ ] Feature 12: Task Completion Logger
+- [ ] Feature 13: Error Logger (timestamped)
+- [ ] Feature 14: File Writer (auto-parent-dir)
+- [ ] Feature 15: Generated Files Tracker
+- [ ] Feature 16: Proposal Generator (multi-candidate)
+- [ ] Feature 17: Judge Evaluator (4D scoring)
+- [ ] Feature 18: 4D Scoring Parser
+- [ ] Feature 19: Code Validator (quality threshold retry)
+- [ ] Feature 20: Test Generator (pytest automation)
+- [ ] Feature 21: Test Path Converter (src→test mapping)
+- [ ] Feature 22: Config Generator (YAML/JSON from specs)
+- [ ] Feature 23: Algorithm Generator (detailed implementations)
+- [ ] Feature 24: Dependency Resolver (module ordering)
+- [ ] Feature 25: Ensemble Orchestrator (parallel proposers/judges)
+- [ ] Feature 26: Quality Convergence Loop (iterate to threshold)
+- [ ] Feature 27: Subprocess Isolation (safe code execution)
+- [ ] Feature 28: Cost Tracker (API usage monitoring)
+- [ ] Feature 29: Interrupt Handler (graceful SIGINT)
+- [ ] Feature 30: Main CLI Parser (standardized args)
+
+### **LEVEL 1 SUCCESS CRITERIA**
+```bash
+# Must pass ALL validation tests
+
+TEST_001: python v1_bootstrap.py --help → returns usage info
+TEST_002: v1 can parse v2_spec.txt → extracts module list
+TEST_003: v1 can call LLM → receives <answer> tagged response
+TEST_004: v1 can write files → creates test_module.py
+TEST_005: v1 can validate syntax → ast.parse() succeeds
+TEST_006: v1 tracks costs → logs API usage to file
+TEST_007: v1 handles SIGINT → exits gracefully
+```
+
+**ALL TESTS MUST PASS → Transition to Level 2**
+
+***
+
+## **III. LEVEL 2 - ORCHESTRATED MULTI-PROCESS**
+
+### **ARCHITECTURE**
+```
+Files: v2_orchestrator.py + 40 supporting modules
+Properties: Stateful generation, parent+child scripts, NO persistence
+```
+
+### **FEATURES REQUIRED**
+**Features 31-90** (Validation & Generation)
+
+**MUST IMPLEMENT:**
+- [ ] Feature 31: LLM Response Cache (deduplicate queries)
+- [ ] Feature 32: Provider Failover (auto-switch on failure)
+- [ ] Feature 33: Exponential Backoff (HTTP retry delays)
+- [ ] Feature 34: Global Config Cache (cross-module reuse)
+- [ ] Feature 35: Timestamp Tracker (rate limit enforcement)
+- [ ] Feature 36: Safe YAML Loader (prevent code execution)
+- [ ] Feature 37: Pathlib File Ops (cross-platform paths)
+- [ ] Feature 38: Atomic Function Writer (SRP enforcement)
+- [ ] Feature 39: Docstring Generator (consistent docs)
+- [ ] Feature 40: Type Hint Injector (Python typing)
+- [ ] Feature 41: Solution Library Scanner (reuse detection)
+- [ ] Feature 42: YouTube Harvester (tutorial extraction)
+- [ ] Feature 43: Meta-Cognitive Reflector (failure analysis)
+- [ ] Feature 44: Persistent State DB (SQLite generation state)
+- [ ] Feature 45: Rollback Mechanism (revert failed steps)
+- [ ] Feature 46: Audit Logger (complete activity trail)
+- [ ] Feature 47: Crash Capture Handler (subprocess failures)
+- [ ] Feature 48: DB Schema Generator (auto-schema creation)
+- [ ] Feature 49: Human-in-Loop Prompt (risky op confirmation)
+- [ ] Feature 50: Generation Session Tracker (session monitoring)
+- [ ] Feature 51: Spec Document Reader (full doc parsing)
+- [ ] Feature 52: Module Dependency Graph (interdependency mapping)
+- [ ] Feature 53: Topological Sort Builder (generation ordering)
+- [ ] Feature 54: Parallel Proposal Executor (concurrent generation)
+- [ ] Feature 55: Judge Consensus Calculator (score aggregation)
+- [ ] Feature 56: Feedback Loop Injector (iterative improvement)
+- [ ] Feature 57: Low-Quality Retry Logic (quality-based retry)
+- [ ] Feature 58: Test Suite Validator (pytest execution)
+- [ ] Feature 59: Coverage Report Generator (coverage metrics)
+- [ ] Feature 60: Edge Case Detector (critical test cases)
+
+**Features 61-90** (Resource Monitoring & Performance)
+
+**MUST IMPLEMENT:**
+- [ ] Feature 61: Solution Library Loader (on-demand reuse)
+- [ ] Feature 62: Capability Gap Detector (missing abilities)
+- [ ] Feature 63: Usage Frequency Tracker (capability analytics)
+- [ ] Feature 64: Quality Score Aggregator (module quality)
+- [ ] Feature 65: Failure Pattern Analyzer (trend detection)
+- [ ] Feature 66: Historical Log Query (log analysis)
+- [ ] Feature 67: Multi-Iteration Orchestrator (loop control)
+- [ ] Feature 68: Resource Monitor (CPU/memory tracking)
+- [ ] Feature 69: Memory Usage Tracker (optimization signals)
+- [ ] Feature 70: Timeout Handler (long-task abortion)
+- [ ] Feature 71: Deadlock Detector (generation deadlocks)
+- [ ] Feature 72: State Persistence Layer (cross-run state)
+- [ ] Feature 73: Backup Rollback Point (stable state saves)
+- [ ] Feature 74: Version Control Integration (Git interface)
+- [ ] Feature 75: Git Commit Automator (auto-commits)
+- [ ] Feature 76: Change Detection Scanner (version diffs)
+- [ ] Feature 77: Diff Validator (pre-commit validation)
+- [ ] Feature 78: Merge Conflict Resolver (auto-resolution)
+- [ ] Feature 79: Branch Management (Git workflows)
+- [ ] Feature 80: Release Tagger (version tagging)
+- [ ] Feature 81: Solution Reusability Checker (fit evaluation)
+- [ ] Feature 82: Template Library Manager (code templates)
+- [ ] Feature 83: Pattern Extractor (common pattern reuse)
+- [ ] Feature 84: Code Refactoring Engine (quality improvement)
+- [ ] Feature 85: Performance Profiler Caller (runtime analysis)
+- [ ] Feature 86: Bottleneck Detector (perf hotspots)
+- [ ] Feature 87: Optimization Suggester (code improvements)
+- [ ] Feature 88: Benchmark Runner (performance testing)
+- [ ] Feature 89: Speedup Validator (optimization verification)
+- [ ] Feature 90: Memory Leak Detector (leak detection)
+
+### **LEVEL 2 SUCCESS CRITERIA**
+```bash
+# Must pass ALL validation tests
+
+TEST_001: python v2_orchestrator.py --validate --level 2
+  └─ Expected: PASS (all 90 features validated)
+
+TEST_002: V2 can generate V3 kernel spec → creates kernel_v3_spec.txt
+TEST_003: V2 can coordinate 4 judges + 10 proposers → completes in <5min
+TEST_004: V2 crash handler works → simulate subprocess crash, kernel survives
+TEST_005: V2 state persists across runs → save session, restart, reload succeeds
+TEST_006: V2 can rollback failed generation → revert to last stable state
+```
+
+**ALL TESTS MUST PASS → Transition to Level 3**
+
+***
+
+## **IV. LEVEL 3 - ALWAYS-ON KERNEL ← CRITICAL TRANSITION**
+
+### **ARCHITECTURE**
+```
+Files: kernel_v3.py, bootloader.py, toolbox_metadata.db
+Properties: Always-on event loop, state persistence, hot-swappable
+```
+
+### **FEATURES REQUIRED**
+**Features 91-140** (Enterprise & Observability)
+
+**MUST IMPLEMENT:**
+- [ ] Feature 91: Security Scanner Caller (vulnerability scans)
+- [ ] Feature 92: Vulnerability Assessor (risk evaluation)
+- [ ] Feature 93: Hardening Suggester (security improvements)
+- [ ] Feature 94: Compliance Checker (policy validation)
+- [ ] Feature 95: License Scanner (compatibility checks)
+- [ ] Feature 96: Documentation Generator (user docs)
+- [ ] Feature 97: API Doc Builder (reference docs)
+- [ ] Feature 98: README Updater (project READMEs)
+- [ ] Feature 99: Usage Example Creator (code snippets)
+- [ ] Feature 100: Tutorial Generator (usage guides)
+- [ ] Feature 101: Multi-User Session Manager (concurrent users)
+- [ ] Feature 102: Priority Queue Handler (task prioritization)
+- [ ] Feature 103: Fairness Enforcer (resource fairness)
+- [ ] Feature 104: Resource Allocator (CPU/memory allocation)
+- [ ] Feature 105: Quota Tracker (usage quotas)
+- [ ] Feature 106: Billing Calculator (cost computation)
+- [ ] Feature 107: Usage Report Generator (usage analytics)
+- [ ] Feature 108: Alert System (issue notifications)
+- [ ] Feature 109: Notification Dispatcher (email/Slack)
+- [ ] Feature 110: Slack/Email Integration (communication tools)
+- [ ] Feature 111: Dashboard Generator (monitoring UI)
+- [ ] Feature 112: Metrics Exporter (metrics export)
+- [ ] Feature 113: Grafana Integration (dashboard support)
+- [ ] Feature 114: Prometheus Scraper (metrics scraping)
+- [ ] Feature 115: Alert Rule Manager (alert config)
+- [ ] Feature 116: Anomaly Detector (behavioral anomalies)
+- [ ] Feature 117: Predictive Scaler (load prediction)
+- [ ] Feature 118: Auto-Scaling Controller (resource scaling)
+- [ ] Feature 119: Load Balancer (instance balancing)
+- [ ] Feature 120: Failover Orchestrator (failover management)
+- [ ] Feature 121: Backup Scheduler (automated backups)
+- [ ] Feature 122: Restore Tester (backup validation)
+- [ ] Feature 123: Disaster Recovery Planner (recovery planning)
+- [ ] Feature 124: Compliance Auditor (regulatory audits)
+- [ ] Feature 125: Data Retention Manager (retention policies)
+- [ ] Feature 126: Privacy Scanner (privacy checks)
+- [ ] Feature 127: GDPR Compliance Checker (GDPR validation)
+- [ ] Feature 128: Access Control Manager (permission management)
+- [ ] Feature 129: Role-Based Auth (RBAC implementation)
+- [ ] Feature 130: Audit Trail Analyzer (log analysis)
+- [ ] Feature 131: Self-Healing Controller (auto-repair)
+- [ ] Feature 132: Anomaly Response Engine (anomaly handling)
+- [ ] Feature 133: Auto-Recovery Planner (recovery automation)
+- [ ] Feature 134: Fallback Strategy Selector (fallback selection)
+- [ ] Feature 135: Graceful Degradation (service continuity)
+- [ ] Feature 136: Circuit Breaker (cascade prevention)
+- [ ] Feature 137: Retry Policy Manager (retry strategies)
+- [ ] Feature 138: Timeout Configurator (timeout management)
+- [ ] Feature 139: Bulkhead Pattern (fault isolation)
+- [ ] Feature 140: Observability Layer (tracing/logging)
+
+### **LEVEL 3 SUCCESS CRITERIA**
+```bash
+# Must pass ALL validation tests
+
+TEST_001: python bootloader.py --validate --level 3
+  └─ Expected: PASS
+  └─ Checks: Triple fallback chain exists (v3.0→v2.9→v1.0)
+
+TEST_002: kernel_v3.py --healthcheck --timeout 30s → SUCCESS
+TEST_003: Subprocess isolation works → launch sandboxed tool, kill it, kernel survives
+TEST_004: SQLite state persists → write to toolbox_capabilities.db, restart, data intact
+TEST_005: ZeroMQ message bus functional → IPC latency < 5ms
+TEST_006: Hot-swapping works → kernel_v3.0 → kernel_v3.1 without downtime
+TEST_007: Idle budget tracker active → tracks daily builds, enforces 3/day limit
+
+TEST_008: TOOLBOX MANAGEMENT THRESHOLD VALIDATION
+  └─ state_persist: ✓
+  └─ safe_exec: ✓
+  └─ self_inventory: ✓
+  └─ self_author: ✓
+  └─ quality_assess: ✓
+  └─ RESULT: THRESHOLD ACHIEVED → Horizontal expansion unlocked
+```
+
+**ALL TESTS MUST PASS → Transition to Level 4**
+
+***
+
+## **V. LEVEL 4 - AUTONOMOUS GAP ANALYSIS**
+
+### **ARCHITECTURE**
+```
+Files: kernel_v4.py + idle_processor.py + capability_builder.py
+Properties: Proactive self-improvement, gap detection, autonomous builds
+```
+
+### **FEATURES REQUIRED**
+**Features 141-180** (Self-Awareness & Bootstrapping)
+
+**MUST IMPLEMENT:**
+- [ ] Feature 141: Tool Discoverer (missing tool detection)
+- [ ] Feature 142: Web Scraper (web document extraction)
+- [ ] Feature 143: API Integrator (external API integration)
+- [ ] Feature 144: Capability Inventory (complete capability tracking)
+- [ ] Feature 145: Gap Analyzer (missing vs ideal capabilities)
+- [ ] Feature 146: Utility Predictor (feature usefulness scoring)
+- [ ] Feature 147: Capability Proposer (creative feature proposals)
+- [ ] Feature 148: Idle Processor (downtime self-improvement) ← CRITICAL
+- [ ] Feature 149: Priority Ranker (build prioritization)
+- [ ] Feature 150: Self-Awareness DB Manager (capability/gap DB)
+- [ ] Feature 151: Inventory Refresh Scheduler (periodic inventory)
+- [ ] Feature 152: Gap Analysis Runner (automated gap detection)
+- [ ] Feature 153: Proposal Evaluator (proposal quality scoring)
+- [ ] Feature 154: Queue Position Updater (dynamic re-prioritization)
+- [ ] Feature 155: Build Status Tracker (build progress monitoring)
+- [ ] Feature 156: Autonomous Builder (self-directed capability building) ← CRITICAL
+- [ ] Feature 157: Quality Threshold Checker (minimum quality enforcement)
+- [ ] Feature 158: Synergy Calculator (feature interaction scoring)
+- [ ] Feature 159: Difficulty Estimator (build complexity prediction)
+- [ ] Feature 160: Priority Formula Engine (utility × urgency × feasibility - difficulty)
+- [ ] Feature 161: Proactive Extension Orchestrator (self-extension coordination)
+
+**NEW META-ARCHITECT CAPABILITIES (162-180)**
+
+**MUST IMPLEMENT:**
+- [ ] Feature 162: Feature List Parser (`feature_list.txt` → SQLite inventory)
+- [ ] Feature 163: Implementation Scanner (detect implemented vs planned)
+- [ ] Feature 164: Dependency Graph Builder (topological capability sort)
+- [ ] Feature 165: LLM Brainstormer (`--mode brainstorm` gap analysis)
+- [ ] Feature 166: Tiered Bootstrap Orchestrator (V1→V2→V3→V4 progression)
+- [ ] Feature 167: Brainstorm Session Memory (SQLite session persistence)
+- [ ] Feature 168: Overnight Idle Processing (autonomous capability building)
+- [ ] Feature 169: Build Queue Manager (priority FIFO queue)
+- [ ] Feature 170: Risk Confirmation Gate (human-in-loop for high-impact)
+
+**PIPELINE ROUTING SYSTEM (171-180)**
+
+**MUST IMPLEMENT:**
+- [ ] Feature 171: Task Classifier (Simple vs Complex routing)
+- [ ] Feature 172: Pipeline Template Registry (SIMPLE/HILL-CLIMB/MMS variants)
+- [ ] Feature 173: Pipeline Selector (LLM-recommended strategy)
+- [ ] Feature 174: Convergence Detector ("Further improvement? Y/N")
+- [ ] Feature 175: Structured Vote Tally (`<preference>Solution3</preference>`)
+- [ ] Feature 176: Fixed Iteration Fallback (`--max-iterations N`)
+- [ ] Feature 177: Judge Panel Mashup (Critique synthesis)
+- [ ] Feature 178: Pipeline Inventor (V4 creates new strategies)
+- [ ] Feature 179: Pipeline Performance Tracker (success rate analytics)
+- [ ] Feature 180: Auto-Pipeline Selection (task complexity → optimal pipeline)
+
+### **LEVEL 4 SUCCESS CRITERIA**
+```bash
+TEST_001: Idle processor active → detects idle, triggers gap analysis
+TEST_002: Gap analysis works → compares toolbox vs feature_list.txt, identifies missing
+TEST_003: Utility prediction accurate → predicted utility within 20% of actual
+TEST_004: Autonomous builder functional → builds Feature 142 (web scraper) without human prompt
+TEST_005: Build queue respects priority → high-utility builds execute first
+TEST_006: Risk gate triggers → high-impact builds require human confirmation
+TEST_007: 20 new capabilities built autonomously → features 141-161 in toolbox/
+
+TEST_008: IDLE PROCESSING VALIDATION
+  └─ System idle detected (no tasks for 5min)
+  └─ Gap analysis runs automatically
+  └─ Build queue populated with 3-5 proposals
+  └─ Autonomous builder executes top priority
+  └─ New tool added to toolbox/
+  └─ RESULT: PASS
+```
+
+**ALL TESTS MUST PASS → Transition to Level 5**
+
+***
+
+## **VI. LEVEL 5 - PRODUCTION HARDENING**
+
+### **ARCHITECTURE**
+```
+Files: kernel_v5.py + sandbox_validator.py + judge_rotator.py + meta_governor.py
+Properties: Triple fallback, budget limits, garbage collection, diversity rotation
+```
+
+### **FEATURES REQUIRED**
+**Features 181-185** (Production Robustness)
+
+**MUST IMPLEMENT:**
+- [ ] Feature 181: Idle Budget Circuit Breaker
+  - Daily build limit: max 3 new capabilities/day
+  - Utility gain threshold: >15% improvement required
+  - Re-improve ban: 24hr cooldown per capability
+  - Prevents infinite idle processing loops
+
+- [ ] Feature 182: Toolbox Garbage Collector
+  - Quarterly auto-prune: unused 90+ days AND <5 uses
+  - Preserves "critical" stability_flag tools
+  - Archives to cold storage (toolbox/archive/)
+  - Prevents toolbox bloat → SQLite query slowdown
+
+- [ ] Feature 183: Judge Diversity Rotator
+  - Weekly model rotation schedule (5 judges)
+  - Mandatory contrarian judge (argues against majority)
+  - Week 1: claude-3.5, gpt-4o, gemini-2.0, grok-2, deepseek-v2
+  - Week 2: llama-3.1, mistral-large, qwen-2, mixtral-8x22b, command-r+
+  - Prevents judge collusion → bad code reinforcement
+
+- [ ] Feature 184: Bootloader Watchdog
+  - Triple fallback chain: v5.1 → v5.0 → v1.0
+  - 30s healthcheck per kernel before activation
+  - Auto-restart bootloader death (<5s recovery)
+  - Manual override: --force-v1 emergency mode
+
+- [ ] Feature 185: Meta-Improvement Governor
+  - Max 10% build queue = self-referential improvements
+  - Ancestry limit: no chains >3 levels deep
+  - Contrarian judge approval required for meta-builds
+  - Prevents priority escalation → meta-improvement takeover
+
+### **LEVEL 5 SUCCESS CRITERIA**
+```bash
+TEST_001: Budget enforcement works → 4th build request rejected (3/day limit)
+TEST_002: GC activates quarterly → removes tools meeting criteria (90days+<5uses)
+TEST_003: Judge rotation functional → switches models weekly, includes contrarian
+TEST_004: Triple fallback validated → v5.1 fails → v5.0 activated → v1.0 emergency
+TEST_005: Watchdog restart <5s → kill bootloader PID → auto-restart succeeds
+TEST_006: Meta-governor blocks → rejects self-referential builds >10% queue
+TEST_007: Sandbox validation strict → 30s timeout, 512MB limit enforced
+
+TEST_008: PRODUCTION HARDENING VALIDATION
+  └─ Idle budget: 3/day limit enforced
+  └─ GC: quarterly cleanup works
+  └─ Judge rotation: diversity maintained
+  └─ Bootloader: triple fallback functional
+  └─ Meta-governor: prevents runaway meta-improvements
+  └─ RESULT: PASS
+```
+
+**ALL TESTS MUST PASS → Transition to Level 6**
+
+***
+
+## **VII. LEVEL 6 - FIREBIRD COGNITIVE OS**
+
+### **ARCHITECTURE**
+```
+Files: kernel_v6.py + firebird/ (cognitive layer applets)
+Properties: Cognitive threads, Second Mind, Mirror Mode, FireScript
+```
+
+### **FEATURES REQUIRED**
+**Features 192-199** (Cognitive Layer)
+
+**MUST IMPLEMENT:**
+- [ ] Feature 192: FIRESCRIPT INTERPRETER
+  - YAML/JSON safe execution language (no Python escape risk)
+  - toolbox192_firescript_interpreter_v1.0.exe
+  - Windows 11 native .exe, applet.yaml contract
+  - Rule 107: FireScript required for all cognitive tasks
+
+- [ ] Feature 193: SECOND MIND AUDITOR
+  - Post-task integrity check vs cognitive thread intent
+  - Flags drift, ethical misalignment, emotional tone mismatch
+  - Auto-retry or human-in-loop on <90% confidence
+  - Rule 108: Second Mind every task
+
+- [ ] Feature 194: TTD INTENT LAYER (Things-To-Do)
+  - Persistent cognitive threads across reboots/power loss
+  - SQLite: thread_id, intent, emotion, state, priority, relationships
+  - Resume with full context (7+ days pause)
+  - Rule 109: TTD persistence mandatory
+
+- [ ] Feature 195: MIRROR MODE SIMULATOR
+  - Dry-run high-risk tasks (>80% risk/ambiguity)
+  - Ethical/emotional pre-check before execution
+  - Shadow prototypes + user preview dashboard
+  - Rule 110: Mirror Mode ≥80% risk
+
+- [ ] Feature 196: PERFORMANCE GOVERNOR
+  - Dynamic throttling: CPU>90%, thermal, emotional stress
+  - Pauses low-priority, protects high-priority threads
+  - Windows 11 power/heat aware
+
+- [ ] Feature 197: RELATIONSHIP ENGINE
+  - Cascade awareness: file change → task → memory updates
+  - JSON dependency graphs, auto TTD injection
+  - Prevents silent contradictions across threads
+
+- [ ] Feature 198: COGNITIVE THREAD MANAGER
+  - Living task containers: pause/resume/branch/nest
+  - Emotional metadata + priority rebalancing
+  - Thread lifecycle: active → paused → sleeping → archived
+
+- [ ] Feature 199: META-RULES ENGINE
+  - Evolving behavioral policies (tone, risk, pacing)
+  - Weekly reflection: "This rule still true?"
+  - User override + decay scoring
+  - Rule 112: Cognitive hygiene (decay, cascades)
+
+### **LEVEL 6 SUCCESS CRITERIA**
+```bash
+TEST_001: FireScript interpreter works → executes YAML applet safely
+TEST_002: Second Mind audits task → flags misalignment, triggers retry
+TEST_003: TTD persistence functional → thread survives reboot, context restored
+TEST_004: Mirror Mode triggers at 80% risk → simulation runs, human approval requested
+TEST_005: Performance governor throttles → CPU>90% → low-priority tasks deferred
+TEST_006: Relationship cascade works → file change → 5 TTD updates propagate
+TEST_007: Meta-rules decay weekly → confidence drops, user validation prompt
+TEST_008: Cognitive thread lifecycle → pause 7 days → auto-resurface on related activity
+
+TEST_009: FIREBIRD COGNITIVE OS VALIDATION
+  └─ FireScript: safe YAML execution
+  └─ Second Mind: integrity audit functional
+  └─ TTD: persistent cognitive threads
+  └─ Mirror Mode: risk simulation works
+  └─ Performance Governor: dynamic throttling
+  └─ Relationship Engine: cascade updates
+  └─ Meta-Rules: decay and validation
+  └─ RESULT: PASS
+```
+
+**ALL TESTS MUST PASS → Firebird Cognitive OS operational**
+
+***
+
+## **VIII. TRANSITION PROTOCOLS**
+
+### **V1 → V2 Transition**
+```
+PREREQUISITE: All Level 1 tests PASS
+COMMAND: python v1_bootstrap.py --spec v2_spec.txt --features 1-60
+VALIDATION: python v2_orchestrator.py --validate --level 2
+ON_SUCCESS: Archive v1_bootstrap.py, activate v2_orchestrator.py
+ON_FAIL: V1 regenerates failed modules, retry (max 5 attempts)
+```
+
+### **V2 → V3 Transition**
+```
+PREREQUISITE: All Level 2 tests PASS
+COMMAND: python v2_orchestrator.py --spec v3_kernel_spec.txt --features 61-140
+VALIDATION: python bootloader.py --validate --level 3
+ON_SUCCESS: Archive v2 files, activate kernel_v3.py + bootloader.py
+ON_FAIL: V2 regenerates failed components, retry (max 5 attempts)
+```
+
+### **V3 → V4 Transition**
+```
+PREREQUISITE: Level 3 tests PASS + Toolbox Management Threshold met
+COMMAND: kernel_v3.py --upgrade --mode idle --features 141-180
+VALIDATION: kernel_v4.py --validate --level 4
+ON_SUCCESS: Activate kernel_v4.py + idle_processor.py
+ON_FAIL: Rollback to kernel_v3.py, analyze failure, retry
+```
+
+### **V4 → V5 Transition**
+```
+PREREQUISITE: Level 4 tests PASS
+COMMAND: kernel_v4.py --harden --features 181-185
+VALIDATION: kernel_v5.py --validate --level 5
+ON_SUCCESS: Activate kernel_v5.py + production safeguards
+ON_FAIL: Rollback to kernel_v4.py, fix issues, retry
+```
+
+### **V5 → V6 (FIREBIRD) Transition**
+```
+PREREQUISITE: Level 5 tests PASS
+COMMAND: kernel_v5.py --firebird --features 192-199
+VALIDATION: kernel_v6.py --validate --level 6
+ON_SUCCESS: Activate Firebird Cognitive OS
+ON_FAIL: Rollback to kernel_v5.py, emergency mode
+```
+
+***
+
+## **IX. EMERGENCY PROTOCOLS**
+
+### **Triple Fallback Chain**
+```
+bootloader.py (IMMUTABLE)
+├── kernel_v6.2.py (Firebird Active)
+├── kernel_v5.1.py (V5 Production Stable)
+└── kernel_v1.0.py (Emergency Minimal)
+
+FAILURE SCENARIO:
+1. kernel_v6.2 fails healthcheck → bootloader launches v5.1
+2. v5.1 fails → bootloader launches v1.0
+3. v1.0 fails → log_emergency("Triple fallback exhausted")
+4. MANUAL: ./bootloader.py --force-v1
+```
+
+### **Sandbox Validation Failure**
+```
+IF tool.sandbox_passed == False:
+  raise SandboxFailure(f"Tool {tool.name} unvalidated")
+  log_to(validation_log/)
+  reject_tool_from_toolbox()
+  notify_human()
+```
+
+### **Budget Exhaustion**
+```
+IF daily_builds_today() >= 3:
+  log("Idle budget exhausted - deferring build")
+  defer_build_to_tomorrow()
+  continue
+```
+
+***
+
+## **X. AGENTIC CODING INSTRUCTIONS**
+
+**When implementing features from `feature_list.txt` (1-199):**
+
+1. **READ THIS SPEC FIRST** - Exact validation criteria mandatory
+2. **FOLLOW `coding_standards.txt`** - Rules 1-112 (incl. Firebird 107-112)
+3. **WRITE TO TOOLBOX FORMAT** - `toolbox/NNN_NAME/vX.Y.{py|exe} + metadata`
+4. **TEST SUBPROCESS ISOLATION** - Kernel survives tool crashes
+5. **SANDBOX ALL NEW TOOLS** - 30s timeout, 512MB limit, no-net default
+6. **VERSION EVERY CHANGE** - Never overwrite stable versions
+7. **RESPECT BUDGETS** - 3/day idle, 10% meta queue
+8. **FIREBIRD MANDATES**:
+   - 107: FireScript required (toolbox192+.exe)
+   - 108: Second Mind every task (193)
+   - 109: TTD persistence (194 cognitive_threads)
+   - 110: Mirror ≥80% risk (195)
+   - 111: Windows 11 native (.exe, PowerShell)
+   - 112: Cognitive hygiene (decay, cascades)
+
+***
+
+## **XI. IMPLEMENTATION CHECKLIST**
+
+### **Phase 1: V1 Generation (Week 1)**
+```
+[ ] Human writes v1_bootstrap.py (150 lines)
+[ ] V1 generates V2 (features 1-60)
+[ ] V2 validation passes
+[ ] Archive V1, activate V2
+```
+
+### **Phase 2: V2 Generation (Week 2)**
+```
+[ ] V2 generates V3 kernel (features 61-140)
+[ ] V3 validation passes
+[ ] Toolbox Management Threshold met
+[ ] Archive V2, activate V3
+```
+
+### **Phase 3: V3 Autonomous Expansion (Week 3+)**
+```
+[ ] V3 idle processing builds features 141-180
+[ ] V4 validation passes
+[ ] V4 → V5 hardening (features 181-185)
+[ ] V5 validation passes
+[ ] V5 → V6 Firebird (features 192-199)
+[ ] V6 validation passes
+[ ] Firebird OS operational
+```
+
+### **Phase 4: Infinite Horizontal (Ongoing)**
+```
+[ ] System runs forever, building tools as needed
+[ ] Quarterly GC activates
+[ ] Judge rotation weekly
+[ ] Budget enforcement daily
+[ ] Second Mind audits every task
+```
+
+***
+
+## **XII. EDGE CASE TEST SUITE**
+
+**MANDATORY: 100% test coverage before each level transition**
+
+```
+V3.1 CORE (001-007):
+001_INFINITE_IDLE: 1000 proposals → Budget stops at 3/day
+002_TOOLBOX_POISON: Infinite loop tool → Sandbox rejects
+003_KERNEL_STORM: 10 failed upgrades → Triple fallback
+004_META_ESCALATION: Chain >3 levels → Governor blocks
+005_DISK_EXHAUSTION: 10GB toolbox → GC activates
+006_JUDGE_COLLUSION: Identical judges → Contrarian breaks
+007_BOOTLOADER_DEATH: Kill PID → Watchdog restarts <5s
+
+FIREBIRD (015-022):
+015_FIRESCRIPT_MALFORM: Corrupted YAML → Safe reject (192)
+016_SECOND_MIND_DRIFT: Audit failure → Human loop (193)
+017_TTD_REBOOT: Kernel restart → Resume 10 threads (194)
+018_MIRROR_HIGH_RISK: Risk=0.95 → Ethical pause (195)
+019_PERF_THERMAL: CPU 95°C → Throttle activates (196)
+020_RELATION_CASCADE: 1 result → 5 TTD updates (197)
+021_THREAD_7DAY: Sleeping thread → Context restore (198)
+022_META_RULE_DECAY: 30-day rule → "Still true?" prompt (199)
+```
+
+***
+
+**END OF SPECIFICATION**
+
+**Document Metadata:**
+- Version: 3.2
+- Date: 2025-12-04
+- Target: Agentic coding systems (LLM parseable)
+- Format: Structured, machine-readable, no narrative
+- Related: feature_list.txt, coding_standards.txt, meta_architecture.txt

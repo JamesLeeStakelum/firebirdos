@@ -1,0 +1,838 @@
+I'll merge these two documents into a single, cohesive META-ARCHITECTURE specification. Since this is a document merging task that doesn't require external information, I can provide this directly.
+
+# **META-ARCHITECTURE DOCUMENTATION V3.2 FIREBIRD**
+
+**V3 Autonomous Coding Kernel + Tiered Bootstrapping + Firebird Cognitive OS**  
+**Production Specification for Agentic Implementation (Features 1-199)**
+
+**This document provides the COMPLETE architectural blueprint for the V3.2 Firebird Meta-Architect system. Agentic coders MUST follow this EXACT structure when implementing capabilities from `feature_list.txt` (1-199).**
+
+***
+
+## **I. SYSTEM PHILOSOPHY & BOOTSTRAPPING MODEL**
+
+### **Core Principles**
+The system evolves through **6 distinct awareness levels**:
+
+```
+LEVEL 1 (V1): Stateless Task Scripts
+├── No self-awareness, ~150 lines Python
+├── Features: 1-30 (Core LLM operations)
+
+LEVEL 2 (V2): Orchestrated Hill-Climb/MMS  
+├── Stateful generation, parent+child scripts
+├── Features: 31-90 (Validation + monitoring)
+
+LEVEL 3 (V3): Self-Aware Kernel
+├── Always-on supervisor, toolbox versioning
+├── Features: 91-140 (Enterprise + observability)
+
+LEVEL 4 (V4): Autonomous Toolbox Expansion
+├── Idle-time self-improvement, gap analysis
+├── Features: 141-180 (Self-awareness + meta)
+
+LEVEL 5 (V3.1): Production Hardening
+├── Triple fallback, sandbox, budget limits
+├── Features: 181-185 (Robustness)
+
+LEVEL 6 (V3.2): FIREBIRD COGNITIVE OS
+├── Cognitive threads, FireScript, Second Mind, TTD layer
+├── Features: 192-199 (Cognitive operating system)
+```
+
+### **Transition Mechanism**
+```
+V1 generates → V2 (40 modules)
+V2 generates → V3 kernel (kernel_v3.py + toolbox/)
+V3 kernel → V4 autonomous expansion (toolbox/NEW/)
+V4 kernel → V3.1 hardened production (181-185)
+V3.1 kernel → V3.2 FIREBIRD cognitive OS (192-199 + cognitive_threads DB)
+```
+
+***
+
+## **II. KERNEL ARCHITECTURE** (Always-On Supervisor + Watchdog + Firebird)
+
+### **Process Model**
+```
+bootloader.py (IMMUTABLE WATCHDOG SUPERVISOR - Feature 184)
+│
+├── **TRIPLE FALLBACK CHAIN**:
+│   ├── kernel_v4.2.py (Firebird Active - 30s healthcheck ✓)
+│   ├── kernel_v4.1.py (V3.1 Production Stable ✓)
+│   ├── kernel_v1.0.py (Emergency Minimal ✓)
+│   └── MANUAL: ./bootloader.py --force-v1
+│
+└── kernel_v4.2.py (HOT-SWAPPABLE FIREBIRD COGNITIVE KERNEL)
+    ├── Main event loop (always running)
+    ├── ZeroMQ message bus (inter-process comms - Feature 74)
+    ├── Firebird cognitive layer (TTD, Second Mind, Mirror Mode)
+    ├── toolbox/ (versioned capability scripts + sandbox + Firebird 192-199)
+    └── subprocess pool (task execution + isolation)
+```
+
+### **Kernel Responsibilities**
+1. **Survivability**: Parent immune to child crashes (Feature 27)
+2. **Subprocess Management**: Launch → monitor → cleanup zombies (Feature 47, 70)
+3. **Hot-Swapping**: kernel_vN → kernel_vN+1 zero-downtime (Feature 77)
+4. **State Persistence**: SQLite tracking (Features 44, 72, 194)
+5. **Idle Processing**: Background expansion with budget governor (Features 148, 181)
+6. **Watchdog Restart**: Auto-restart on bootloader death (Feature 184)
+7. **Cognitive Continuity**: TTD layer, Second Mind audit, Mirror Mode (Features 193-195)
+8. **Performance Governance**: CPU/thermal/emotional throttling (Feature 196)
+9. **Relationship Awareness**: Cascade updates across threads (Feature 197)
+
+### **Bootloader Contract**
+```python
+# bootloader.py - IMMUTABLE WATCHDOG (Feature 184)
+def main():
+    kernel_versions = [
+        "kernel_v4.2.py",  # Firebird Cognitive
+        "kernel_v4.1.py",  # V3.1 Production
+        "kernel_v1.0.py"   # Emergency Minimal
+    ]
+    
+    while True:
+        for kernel_version in kernel_versions:
+            try:
+                if kernel_healthcheck(kernel_version, timeout=30):  # Feature 92
+                    launch_kernel(kernel_version)
+                    break
+            except KernelPanic:
+                kernel_version = rollback_to_stable()  # Feature 45
+                continue
+        else:
+            log_emergency("Triple fallback exhausted")
+            emergency_v1_mode()
+```
+
+### **Firebird Kernel Main Loop**
+```python
+# kernel_v4.2.py - FIREBIRD COGNITIVE + V3.1 HARDENED
+def kernel_main():
+    # Core infrastructure
+    zmq_bus = ZeroMQBus()                    # Feature 74
+    idle_budget = IdleBudget()               # Feature 181
+    
+    # Firebird cognitive layer
+    ttd_layer = TTDIntentLayer()             # Feature 194
+    perf_gov = PerformanceGovernor()         # Feature 196
+    second_mind = SecondMindAuditor()        # Feature 193
+    mirror_mode = MirrorModeSimulator()      # Feature 195
+    relationship_engine = RelationshipEngine() # Feature 197
+    
+    while alive:
+        task = task_queue.pop()  # Feature 102
+        
+        # V3.1 BUDGET SAFEGUARDS
+        if not idle_budget.can_build():
+            log("Idle budget exhausted - deferring")
+            continue
+        
+        # FIREBIRD COGNITIVE CONTEXT
+        thread = ttd_layer.get_context(task.thread_id)  # Feature 194
+        
+        # PERFORMANCE THROTTLING
+        if perf_gov.throttle_check():  # Feature 196: CPU/heat/emotion
+            defer_low_priority()
+            continue
+        
+        # HIGH-RISK SIMULATION
+        if thread.risk > 0.8:  # Feature 195: Mirror Mode
+            simulation = mirror_mode.simulate(thread)
+            if not second_mind.approve(simulation, thread.intent):  # Feature 193
+                human_review()
+                continue
+        
+        # EXECUTION WITH FIRESCRIPT
+        subprocess_id = launch_capability_tool(task)  # Feature 27
+        result = toolbox192_firescript.execute(task)  # Feature 192
+        monitor_subprocess(subprocess_id)  # Feature 47
+        
+        # CASCADE RELATIONSHIP UPDATES
+        relationship_engine.cascade_update(result)  # Feature 197
+        ttd_layer.update_progress(thread, result)   # Feature 194
+        
+        # IDLE EXPANSION (BUDGET-GOVERNED)
+        if idle_timeout() and idle_budget.available():
+            run_idle_expansion()  # Features 148, 181
+```
+
+***
+
+## **III. TOOLBOX SPECIFICATION** (Capability Repository + Sandbox/GC + Firebird)
+
+### **Physical Structure**
+```
+toolbox/                                      # Feature 150
+├── metadata.db                              # SQLite registry + GC (182)
+├── validation_log/                          # Sandbox failure logs
+├── 001_markdown_pdf/
+│   ├── v1.0.py                             # Original version
+│   ├── v1.1.py                             # Bugfix iteration
+│   └── v1.2.py*                            # Latest stable (marked)
+├── 002_email_sender/
+│   ├── v0.9.py                             # Beta version
+│   └── README.md                           # CLI contract + examples
+├── 142_web_scraper/
+│   └── v1.0.py*                            # Feature implementation
+├── 192_firescript_interpreter/              # FIREBIRD NEW
+│   └── v1.0.exe*                           # Windows 11 native (Rule 111)
+├── 193_second_mind_auditor/
+│   └── v1.0.exe*                           # Integrity checker
+├── 194_ttd_layer/
+│   └── v1.0.exe*                           # Cognitive threads manager
+├── 195_mirror_mode/
+│   └── v1.0.exe*                           # Risk simulator
+├── 196_perf_governor/
+│   └── v1.0.exe*                           # Load/emotion throttle
+├── 197_relationship_engine/
+│   └── v1.0.exe*                           # Cascade awareness
+├── 198_cognitive_thread_mgr/
+│   └── v1.0.exe*                           # Thread lifecycle
+├── 199_meta_rules_engine/
+│   └── v1.0.exe*                           # Policy evolution
+└── 999_kernel_upgrade/
+    ├── kernel_v4.2.py*                      # Firebird kernel (active)
+    ├── kernel_v4.1.py                       # V3.1 stable
+    ├── kernel_v3.0.py                       # Legacy
+    └── upgrade_log.json                     # Motivation for each upgrade
+```
+
+### **Metadata Schema**
+```sql
+-- Core capability tracking
+CREATE TABLE toolbox_capabilities (
+    id INTEGER PRIMARY KEY,                  -- Sequential: 001, 002...
+    name TEXT UNIQUE,                        -- "markdown_to_pdf"
+    description TEXT,                        -- "Convert markdown → PDF"
+    version TEXT,                            -- "v1.2"
+    stability_flag TEXT,                     -- "stable|beta|experimental"
+    created_at DATETIME,
+    cli_contract TEXT,                       -- "--input file.md --output file.pdf"
+    quality_score REAL,                      -- 4.2/5.0 (Feature 64)
+    dependencies TEXT,                       -- "python3,pandoc"
+    test_status TEXT,                        -- "passing|broken"
+    
+    -- V3.1 PRODUCTION FIELDS (Features 182, sandbox)
+    usage_count INTEGER DEFAULT 0,
+    last_used DATETIME,
+    gc_eligible BOOLEAN DEFAULT FALSE,       -- GC candidate?
+    sandbox_passed BOOLEAN DEFAULT FALSE,    -- Validation passed?
+    
+    -- FIREBIRD FIELDS (Feature 192)
+    firescript_compatible BOOLEAN DEFAULT FALSE,
+    native_windows BOOLEAN DEFAULT FALSE     -- Rule 111
+);
+
+-- Usage analytics
+CREATE TABLE capability_usage (
+    capability_id INTEGER,
+    task_type TEXT,
+    success_rate REAL,
+    usage_count INTEGER,
+    last_used DATETIME
+);
+
+-- Kernel version tracking
+CREATE TABLE kernel_versions (
+    version TEXT PRIMARY KEY,
+    path TEXT,
+    stability TEXT,
+    quality_score REAL,
+    active BOOLEAN DEFAULT FALSE,
+    firebird_enabled BOOLEAN DEFAULT FALSE
+);
+
+-- Upgrade history
+CREATE TABLE upgrade_sessions (
+    id INTEGER PRIMARY KEY,
+    from_version TEXT,
+    to_version TEXT,
+    motivation TEXT,
+    success BOOLEAN,
+    timestamp DATETIME
+);
+
+-- V3.1 Budget tracking
+CREATE TABLE idle_budget (
+    date TEXT PRIMARY KEY,
+    builds_today INTEGER DEFAULT 0
+);
+
+-- V3.1 Meta improvement tracking
+CREATE TABLE meta_improvements (
+    id INTEGER PRIMARY KEY,
+    ancestry_depth INTEGER,
+    base_capability TEXT,
+    improvement_chain TEXT
+);
+
+-- FIREBIRD COGNITIVE TABLES (Features 194, 199)
+CREATE TABLE cognitive_threads (
+    thread_id TEXT PRIMARY KEY,
+    user_intent TEXT,                        -- "Convert book to screenplay"
+    emotional_tone TEXT,                     -- "excited|urgent|hesitant|reflective"
+    state TEXT,                              -- "active|paused|sleeping|archived"
+    priority REAL DEFAULT 0.5,               -- Dynamic rebalance (0.0-1.0)
+    relationships JSON,                      -- Dep graph: files, tasks, memories
+    last_active DATETIME,
+    pause_duration INTEGER,                  -- Auto-resurface trigger
+    risk_level REAL DEFAULT 0.0              -- Feature 195 threshold
+);
+
+CREATE TABLE meta_rules (
+    rule_id TEXT PRIMARY KEY,
+    description TEXT,                        -- "Prefer casual tone for emails"
+    confidence REAL DEFAULT 1.0,             -- Decay over time + user override
+    last_validated DATETIME,
+    user_override_count INTEGER,
+    category TEXT                            -- "style|safety|preference|workflow"
+);
+```
+
+### **Toolbox Operations**
+
+#### **1. Tool Selection** (Feature 81 + Sandbox + Firebird)
+```bash
+# V3.1 Sandbox-strict selection
+kernel> toolbox_query --task "convert markdown to PDF" --sandbox-strict
+Result: toolbox/001_markdown_pdf/v1.2.py 
+       (stable, quality=4.2, sandbox_passed=True)
+
+# Firebird-aware selection
+kernel> toolbox_query --task "evaluate risk" --firescript-required
+Result: toolbox/195_mirror_mode/v1.0.exe
+       (firebird, native_windows=True, sandbox_passed=True)
+```
+
+#### **2. Tool Execution** (Feature 27 + Resource Limits + Sandbox)
+```python
+def execute_toolbox_capability(task):
+    tool = toolbox.select(task.required_capability)
+    
+    # V3.1 SANDBOX VALIDATION (Rule 14)
+    if not tool.sandbox_passed:
+        raise SandboxFailure(f"Tool {tool.name} unvalidated")
+    
+    # FIREBIRD: Check FireScript compatibility for cognitive tasks
+    if task.requires_firebird and not tool.firescript_compatible:
+        raise FirebirdIncompatible(f"Tool {tool.name} not Firebird-ready")
+    
+    proc = subprocess.Popen(
+        [tool.path, *task.args],
+        stdout=PIPE, stderr=PIPE,
+        preexec_fn=os.setsid,                # Process group isolation
+        timeout=30,                          # 30s limit (Feature 70)
+        mem_limit="512MB"                    # Memory cap (Feature 69)
+    )
+    monitor_and_cleanup(proc)
+```
+
+#### **3. New Tool Creation** (Features 156-161 + Validation + Firebird)
+```
+IDLE → Gap detected (145) → LLM Brainstorm (165) → 
+Build Queue (169) → Generate/Test/Store (156-161) → 
+SANDBOX VALIDATE (Rule 14) → toolbox/NEW/
+
+FIREBIRD GENERATION:
+Features 192-199 auto-generated with:
+- Windows 11 native .exe (Rule 111)
+- FireScript compatible (Rule 107)
+- Second Mind integrated (Rule 108)
+```
+
+#### **4. Garbage Collection** (Feature 182 - Quarterly)
+```sql
+-- AUTO-RUN quarterly
+DELETE FROM toolbox_capabilities 
+WHERE last_used < DATE('now', '-90 days') 
+  AND usage_count < 5 
+  AND stability_flag != 'critical'
+  AND id NOT IN (192, 193, 194, 195, 196, 197, 198, 199); -- Preserve Firebird core
+```
+
+***
+
+## **IV. AWARENESS PROGRESSION** (Vertical → Horizontal → Cognitive)
+
+### **Level Transitions**
+```
+V1 → V2: Bundle features 1-60 (Basic generation)
+V2 → V3: Bundle features 61-140 (Kernel + enterprise)
+V3 → V4: Features 141-180 (Self-awareness ON)
+V4 → V3.1: Features 181-185 (Production hardening)
+V3.1 → V3.2: Features 192-199 (Firebird cognitive OS)
+V3.2 → ∞: Horizontal toolbox expansion (sandboxed + cognitive-aware)
+```
+
+### **Horizontal Expansion Workflow** (With Budget Governor + Firebird)
+```
+1. IDLE DETECTED (Feature 148)
+2. BUDGET CHECK (Feature 181): <3/day, >15% utility?
+3. INVENTORY REFRESH (Feature 151)
+4. GAP ANALYSIS (Feature 145): toolbox/ vs feature_list.txt
+5. META GOVERNOR (Feature 185): <10% queue meta-improvements?
+6. FIREBIRD CONTEXT (Feature 194): Active cognitive threads?
+7. BRAINSTORM SESSION (Feature 165)
+8. PRIORITY RANKING (Feature 160): utility × feasibility × thread_relevance
+9. AUTONOMOUS BUILD (Feature 156): Generate → Test → SANDBOX
+10. SECOND MIND AUDIT (Feature 193): Safety/alignment check
+11. TOOLBOX UPDATED: toolbox/NEW_CAPABILITY/
+```
+
+***
+
+## **V. VERSIONING & ROLLBACK** (Production Reliability + Triple Fallback)
+
+### **Kernel Versioning**
+```
+toolbox/999_kernel_upgrade/
+├── kernel_v4.2.py*    # Firebird Cognitive (Active)
+├── kernel_v4.1.py     # V3.1 Production Stable
+├── kernel_v4.0.py     # Pre-hardening
+├── kernel_v3.0.py     # Original self-aware
+├── kernel_v2.9.py     # V2 orchestrated
+└── upgrade_log.json   # Motivation/reason for each upgrade
+```
+
+### **Upgrade Process** (Zero-Downtime + Triple Validation)
+```python
+def upgrade_kernel(new_kernel_path):  # Features 77, 184
+    # 1. TRIPLE FALLBACK VALIDATION
+    fallback_versions = get_stable_kernels(3)
+    if not validate_new_kernel(new_kernel_path, fallback_versions):
+        rollback()
+        return False
+    
+    # 2. Firebird cognitive readiness check
+    if new_kernel_path.endswith("v4.2.py"):
+        if not verify_firebird_toolbox():  # 192-199 present
+            log("Firebird toolbox incomplete")
+            return False
+    
+    # 3. Launch shadow kernel (Feature 27 isolation)
+    shadow_pid = launch_shadow_kernel(new_kernel_path)
+    
+    # 4. Health check (Feature 92)
+    if shadow_healthy(shadow_pid, timeout=30):
+        swap_active_kernel(new_kernel_path)
+        terminate_old_kernel()
+        return True
+    else:
+        kill_shadow(shadow_pid)
+        notify_failure()
+        return False
+```
+
+### **Capability Versioning Policy**
+```
+Every code change → NEW VERSION:
+- Increment minor (bugfix) / major (features)
+- Copy old version to archive
+- Mark: "experimental" → "beta" → "stable"
+- Track quality evolution (Feature 64)
+- Rollback on quality regression
+- Firebird tools: firescript_compatible flag required
+```
+
+***
+
+## **VI. IMPLEMENTATION HIERARCHY** (Skeleton for Agentic Coders)
+
+### **Atomic Module Breakdown**
+```
+meta_architect_v3.2/                         # Parent orchestrator (Feature 30)
+├── bootloader.py                            # Immutable watchdog (184)
+├── kernel_core.py                           # Event loop + ZeroMQ bus
+├── toolbox_manager.py                       # CRUD + GC (182)
+├── subprocess_supervisor.py                 # Zombie prevention + monitoring
+├── idle_processor.py                        # Feature 148 + budget (181)
+├── capability_builder.py                    # Features 156-161 + governor (185)
+├── sandbox_validator.py                     # Tool poisoning defense (Rule 14)
+├── judge_rotator.py                         # Diversity rotation (183)
+├── meta_governor.py                         # Priority limits (185)
+│
+├── firebird/                                # FIREBIRD COGNITIVE LAYER
+│   ├── firescript_interpreter.py           # Feature 192 (YAML safe exec)
+│   ├── second_mind_auditor.py              # Feature 193 (Integrity)
+│   ├── ttd_layer.py                        # Feature 194 (Cognitive threads)
+│   ├── mirror_mode.py                      # Feature 195 (Risk simulator)
+│   ├── perf_governor.py                    # Feature 196 (Throttle)
+│   ├── relationship_engine.py              # Feature 197 (Cascade)
+│   ├── cognitive_thread_manager.py         # Feature 198 (Lifecycle)
+│   └── meta_rules_engine.py                # Feature 199 (Policy evolution)
+│
+└── toolbox/                                 # Versioned + sandboxed + Firebird
+```
+
+### **CLI Contracts**
+```bash
+# V3.1 Kernel commands
+./meta_architect --mode kernel --version 4.1 --watchdog
+./meta_architect --mode idle --budget-strict              # Feature 181
+
+# V3.1 Toolbox operations
+./toolbox_query --task "email_sender" --min_quality 4.0
+./toolbox_build --spec "new_pdf_editor" --pipeline MMS-SHARED
+./toolbox_gc --policy quarterly                           # Feature 182
+
+# FIREBIRD Commands
+./meta_architect --mode kernel --version 4.2 --firescript
+./toolbox194_ttd --resume thread_xyz                      # Resume cognitive thread
+./toolbox195_mirror --risk 0.85 --thread thread_abc      # Simulate high-risk
+./toolbox193_second_mind --audit task_123                 # Safety audit
+./toolbox196_perf_gov --status                            # Check throttle status
+./toolbox197_relationship --cascade thread_xyz result_abc # Update dependencies
+```
+
+***
+
+## **VII. OPERATIONAL PATTERNS** (Runtime Behavior + Safeguards + Firebird)
+
+### **Normal Task Flow**
+```
+User task → Kernel classifies → Toolbox lookup → 
+Tool exists? → SANDBOX CHECK → FIREBIRD CONTEXT (TTD) →
+Execute subprocess → SECOND MIND AUDIT → Return result →
+CASCADE RELATIONSHIP UPDATES
+
+No tool? → Queue for idle (budget permitting) → COGNITIVE PRIORITY
+```
+
+### **Idle Expansion Flow**
+```
+Idle detected (148) → BUDGET CHECK (181) → 
+Inventory refresh (151) → Gap analysis (145) → 
+COGNITIVE THREAD CONTEXT (194) → META GOVERNOR (185) → 
+LLM brainstorm (165) → Priority queue (160) → 
+Autonomous build (156) → SANDBOX VALIDATE (Rule 14) → 
+SECOND MIND APPROVE (193) → Toolbox updated
+```
+
+### **Failure Recovery Flow**
+```
+Subprocess crash → Zombie cleanup → Rollback to stable tool
+Kernel panic → TRIPLE BOOTLOADER FALLBACK (184)
+Quality regression → Revert to previous stable version
+TOOLBOX POISON → Sandbox rejection log
+FIREBIRD AUDIT FAIL → Human review loop (193)
+COGNITIVE THREAD LOSS → TTD restoration from DB (194)
+```
+
+### **Firebird Cognitive Flow**
+```
+Task received → TTD layer retrieves context (194) → 
+Performance check (196) → Risk evaluation (195) →
+Risk >80%? → Mirror Mode simulation (195) →
+Second Mind approval (193) → Execute with FireScript (192) →
+Relationship cascade (197) → Thread progress update (194) →
+Meta rules refinement (199)
+```
+
+***
+
+## **VIII. ROBUSTNESS PATTERNS** (Features 181-185 + Firebird Safeguards)
+
+### **A. IDLE BUDGET CIRCUIT BREAKER** (Feature 181)
+```python
+DAILY_BUILDS_LIMIT = 3
+UTILITY_GAIN_THRESHOLD = 0.15
+REIMPROVE_BAN_HOURS = 24
+
+def can_build_proposal(proposal):
+    if daily_builds_today() >= DAILY_BUILDS_LIMIT: return False
+    if proposal.utility_gain < UTILITY_GAIN_THRESHOLD: return False
+    if recently_improved(proposal.base_capability): return False
+    return True
+```
+
+### **B. TOOLBOX GARBAGE COLLECTOR** (Feature 182)
+```python
+# Quarterly auto-cleanup
+def quarterly_gc():
+    gc_candidates = toolbox.query_gc_eligible()
+    firebird_core = [192, 193, 194, 195, 196, 197, 198, 199]
+    
+    for tool in gc_candidates:
+        if tool.id in firebird_core:
+            continue  # Never GC Firebird core
+        if tool.last_used < 90_days and tool.usage_count < 5:
+            archive_tool(tool)  # Move to cold storage
+```
+
+### **C. JUDGE DIVERSITY ROTATOR** (Feature 183)
+```python
+ROTATION_SCHEDULE = {
+    'week1': ['claude-3.5', 'gpt-4o', 'gemini-2.0', 'grok-2', 'deepseek-v2'],
+    'week2': ['llama-3.1', 'mistral-large', 'qwen-2', 'mixtral-8x22b', 'command-r+']
+}
+CONTRARIAN_JUDGE = 'always_argues_against_majority'
+
+def get_judge_panel():
+    week = get_current_week() % 2
+    panel = ROTATION_SCHEDULE[f'week{week+1}']
+    panel.append(CONTRARIAN_JUDGE)  # Always include contrarian
+    return panel
+```
+
+### **D. BOOTLOADER WATCHDOG** (Feature 184)
+```python
+# Auto-restart pattern with triple fallback
+def watchdog_main():
+    kernel_versions = [
+        "kernel_v4.2.py",  # Firebird
+        "kernel_v4.1.py",  # V3.1
+        "kernel_v1.0.py"   # Emergency
+    ]
+    
+    while True:
+        try:
+            for kernel in kernel_versions:
+                if run_kernel_cycle(kernel):
+                    break
+        except TotalFailure:
+            emergency_restart()
+            sleep(5)
+```
+
+### **E. META-IMPROVEMENT GOVERNOR** (Feature 185)
+```python
+META_QUEUE_LIMIT = 0.1      # Max 10% self-referential builds
+ANCESTRY_LIMIT = 3          # No chains longer than 3 levels
+
+def approve_meta_build(improvement):
+    return (queue_meta_ratio() < META_QUEUE_LIMIT and
+            improvement.ancestry_depth <= ANCESTRY_LIMIT and
+            contrarian_approves(improvement))
+```
+
+### **F. FIREBIRD COGNITIVE SAFEGUARDS** (Features 192-199)
+```python
+# Feature 193: Second Mind mandatory audit
+def execute_task(task):
+    result = run_task(task)
+    if not second_mind.approve(result, task.intent):
+        human_review_required()
+        return None
+    return result
+
+# Feature 194: Cognitive thread persistence
+def ensure_ttd_continuity():
+    threads = ttd_layer.get_active_threads()
+    for thread in threads:
+        if thread.state == 'sleeping' and thread.pause_duration > 7_days:
+            ttd_layer.resurface_thread(thread)
+
+# Feature 195: Mirror Mode for high-risk
+def risk_mitigation(task):
+    if task.risk_level > 0.8:
+        simulation = mirror_mode.simulate(task)
+        return second_mind.evaluate(simulation)
+    return True
+
+# Feature 196: Performance throttling
+def throttle_check():
+    return (cpu_usage() > 90% or 
+            thermal_state() == 'critical' or
+            emotional_tone() == 'overwhelmed')
+
+# Feature 199: Meta rules decay
+def validate_meta_rules():
+    for rule in meta_rules.all():
+        if rule.age() > 30_days:
+            confidence_decay(rule)
+            if rule.confidence < 0.5:
+                human_validation_prompt(rule)
+```
+
+***
+
+## **IX. EDGE CASE TEST SUITES** (Mandatory 100% Coverage)
+
+### **V3.1 Core Tests** (001-007)
+```
+TEST_001_INFINITE_IDLE:     1000 proposals → Budget stops at 3/day
+TEST_002_TOOLBOX_POISON:    Infinite loop tool → Sandbox rejects
+TEST_003_KERNEL_STORM:      10 failed upgrades → Triple fallback
+TEST_004_META_ESCALATION:   Chain >3 levels → Governor blocks
+TEST_005_DISK_EXHAUSTION:   10GB toolbox → GC activates
+TEST_006_JUDGE_COLLUSION:   Identical judges → Contrarian breaks
+TEST_007_BOOTLOADER_DEATH:  Kill PID → Watchdog restarts <5s
+```
+
+### **Firebird Cognitive Tests** (015-022)
+```
+TEST_015_FIRESCRIPT_MALFORM:    Corrupted YAML → Safe reject (192)
+TEST_016_SECOND_MIND_DRIFT:     Audit failure → Human loop (193)
+TEST_017_TTD_REBOOT:            Kernel restart → Resume 10 threads (194)
+TEST_018_MIRROR_HIGH_RISK:      Risk=0.95 → Ethical pause (195)
+TEST_019_PERF_THERMAL:          CPU 95°C → Throttle activates (196)
+TEST_020_RELATION_CASCADE:      1 result → 5 TTD updates (197)
+TEST_021_THREAD_7DAY:           Sleeping thread → Context restore (198)
+TEST_022_META_RULE_DECAY:       30-day rule → "Still true?" prompt (199)
+```
+
+***
+
+## **X. AGENTIC CODING INSTRUCTIONS**
+
+**When implementing features from `feature_list.txt` (1-199):**
+
+### **Core Mandates** (All Features)
+1. **READ THIS DOCUMENT FIRST** - Exact kernel/toolbox structure mandatory
+2. **FOLLOW `coding_standards.txt`** - Atomic functions, TDD, ONNX/ZeroMQ
+3. **WRITE TO TOOLBOX FORMAT** - `toolbox/NNN_NAME/vX.Y.{py|exe} + metadata`
+4. **TEST SUBPROCESS ISOLATION** - Kernel survives tool crashes
+5. **SANDBOX ALL NEW TOOLS** - 30s timeout, 512MB limit, no-net default (Rule 14)
+6. **VERSION EVERY CHANGE** - Never overwrite stable versions
+7. **RESPECT BUDGETS** - Idle builds <3/day, meta <10% queue
+8. **USE SPECIFIED SCHEMA** - SQLite tables exactly as shown
+
+### **Firebird-Specific Mandates** (Features 192-199)
+- **Rule 107**: FireScript required for all Firebird tools (toolbox/192+)
+- **Rule 108**: Second Mind audit every cognitive task (Feature 193)
+- **Rule 109**: TTD persistence mandatory (Feature 194 cognitive_threads)
+- **Rule 110**: Mirror Mode for risk ≥80% (Feature 195)
+- **Rule 111**: Windows 11 native executables (.exe, PowerShell-compatible)
+- **Rule 112**: Cognitive hygiene (decay checks, cascade updates, thread lifecycle)
+
+### **Implementation Examples**
+
+**Standard Toolbox Feature:**
+```
+Feature 142 "Web Scraper" → toolbox/142_web_scraper/v1.0.py
+CLI: python toolbox/142_web_scraper/v1.0.py --url https://example.com --output scraped.html
+Metadata: quality=4.1, stability=stable, deps=requests,beautifulsoup4, sandbox_passed=True
+```
+
+**Firebird Cognitive Feature:**
+```
+Feature 194 "TTD Layer" → toolbox/194_ttd_layer/v1.0.exe
+CLI: toolbox194_ttd.exe --resume thread_xyz --context-window 7d
+Metadata: firescript_compatible=True, native_windows=True, sandbox_passed=True
+Schema: cognitive_threads table with JSON relationships
+```
+
+***
+
+## **XI. FIREBIRD COGNITIVE OS ARCHITECTURE** (Features 192-199)
+
+### **Cognitive Layer Stack**
+```
+USER INTENT
+    ↓
+TTD LAYER (194) - Cognitive thread continuity
+    ↓
+FIRESCRIPT (192) - Safe YAML execution
+    ↓
+SECOND MIND (193) - Integrity/safety audit
+    ↓
+MIRROR MODE (195) - High-risk simulation
+    ↓
+PERFORMANCE GOVERNOR (196) - Resource throttle
+    ↓
+RELATIONSHIP ENGINE (197) - Cascade awareness
+    ↓
+TOOLBOX EXECUTION
+    ↓
+META RULES (199) - Policy evolution
+```
+
+### **Cognitive Thread Lifecycle**
+```
+1. CREATION: User intent + emotional tone captured
+2. ACTIVE: Priority-balanced execution
+3. PAUSED: User-initiated or context-switch
+4. SLEEPING: Idle >7 days, preserved in DB
+5. RESURFACE: Auto-wake on related activity
+6. ARCHIVED: User completion or abandonment
+```
+
+### **FireScript Execution Model** (Feature 192)
+```yaml
+# Example safe YAML execution
+task:
+  type: convert_screenplay
+  input: book.md
+  output: screenplay.fountain
+  safety:
+    max_duration: 30s
+    memory_limit: 512MB
+    network: false
+    filesystem: read_only
+  cognitive:
+    thread_id: thread_abc123
+    emotional_tone: excited
+    priority: 0.8
+```
+
+### **Second Mind Audit Pattern** (Feature 193)
+```python
+def second_mind_audit(task, result):
+    checks = [
+        integrity_check(result),      # No corruption
+        alignment_check(task, result),# Matches intent
+        safety_check(result),         # No harmful output
+        quality_check(result)         # Meets standards
+    ]
+    
+    if all(checks):
+        return APPROVED
+    else:
+        return HUMAN_REVIEW_REQUIRED
+```
+
+***
+
+## **XII. PRODUCTION DEPLOYMENT CHECKLIST**
+
+### **Pre-Launch Requirements**
+- [ ] All test suites 001-022 passing (100% coverage)
+- [ ] Triple fallback validated (kernel_v4.2 → v4.1 → v1.0)
+- [ ] Toolbox sandbox validation for all tools
+- [ ] SQLite schema deployed (all tables 001-199)
+- [ ] Firebird applets 192-199 Windows 11 native
+- [ ] Bootloader watchdog auto-restart tested
+- [ ] Idle budget governor configured (3/day)
+- [ ] GC quarterly schedule configured
+- [ ] Judge rotation week1/week2 populated
+- [ ] Meta-improvement ancestry limit enforced
+- [ ] Cognitive threads DB with 7-day resurface
+- [ ] Second Mind audit mandatory for all tasks
+- [ ] Mirror Mode threshold 80% risk configured
+- [ ] Performance governor thermal limits set
+- [ ] Relationship cascade dependencies mapped
+
+### **Monitoring Dashboard**
+```
+KERNEL HEALTH:
+- Active version: kernel_v4.2.py ✓
+- Uptime: 47 days
+- Subprocess pool: 12/50
+- ZeroMQ latency: 3ms
+
+TOOLBOX STATUS:
+- Total capabilities: 187
+- Sandbox passed: 187/187 ✓
+- Firebird core: 8/8 ✓
+- GC candidates: 12
+
+COGNITIVE LAYER:
+- Active threads: 23
+- Sleeping threads: 47
+- Second Mind audits today: 156 (100% approved)
+- Mirror Mode simulations: 8 (6 approved, 2 human review)
+- Performance throttle events: 3
+
+BUDGETS:
+- Idle builds today: 2/3
+- Meta queue ratio: 7.3% (<10% ✓)
+- Disk usage: 3.2GB / 10GB
+```
+
+***
+
+**✅ V3.2 FIREBIRD COMPLETE SPECIFICATION**  
+**ALL V3.1 FEATURES (1-185) + FIREBIRD COGNITIVE OS (192-199)**  
+**PRODUCTION-READY AGENTIC IMPLEMENTATION BLUEPRINT**
