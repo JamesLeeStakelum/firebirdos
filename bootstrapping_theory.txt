@@ -11,6 +11,11 @@
 1. **State Persistence** - SQLite/database to remember across runs
 2. **Safe Execution** - Subprocess isolation to test without crashing
 3. **Self-Inventory** - Metadata query to know "what tools do I have?"
+
+Crucially, this inventory relies on modern information retrieval, not traditional keyword search. Every built capability is stored with rich metadata (description, docs, parameters, code documentation) which is converted into a high-dimensional vector embedding. The system queries its toolbox by converting the user's task description into an embedding and using Approximate Nearest Neighbors (ANN) search, specifically FAISS, to find conceptually similar tools, regardless of keyword match. This architectural choice makes tool retrieval highly efficient (O(logN) or better) and robust, allowing for infinite horizontal expansion without incurring a prohibitive complexity tax
+
+The achievement of the Toolbox Management Threshold is a direct solution to the System Cold Start Problem inherent in autonomous agents. A 'cold' system fails primarily due to an inability to provide initial utility, either because it lacks capabilities or cannot efficiently retrieve the ones it has. The Threshold addresses this by making tool retrieval robust (via vector embeddings and FAISS-powered Self-Inventory) and by enabling rapid, autonomous growth (via Self-Authorship and Quality Assessment), ensuring the system's utility scales exponentially rather than linearly with development time. This capability transition ensures the Code Factory delivers high value from the earliest stages of its operation, overcoming the initial dependency on manual input.
+
 4. **Self-Authorship** - Code generation to create new capabilities
 5. **Quality Assessment** - Judge/scoring system to evaluate output
 
