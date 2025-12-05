@@ -117,8 +117,32 @@ Human-aligned continuous operation:
 - **Second Mind auditor** – Post-task integrity check vs. stated intent
 - **Mirror Mode** – Risk simulation for high-uncertainty tasks (≥80% ambiguity)
 - **Relationship engine** – Cascade-aware updates (1 file change → 5 dependent task updates)
+- **Continuity tracking** – Prevents contradictions (character dies Chapter 3 → can't appear Chapter 7)
 - **FireScript interpreter** – Safe YAML execution (no Python escape risk)
 - **Meta-rules with decay** – Behavioral policies that ask "Still true?" weekly
+
+***
+
+## Levels of cognition: How the system learns to think
+
+The factory doesn't just build tools—it discovers **how deeply to think** before acting.
+
+### Level 1: Direct execution
+Just do what you're told. "Write a novel" → starts typing Chapter 1 immediately. Fast but amateurish.
+
+### Level 2: Harvest expertise, then plan
+Search for craft knowledge first. "Write a novel" → finds YouTube videos on story structure → discovers beat sheets, character arcs, story bibles → creates planning docs → *then* writes. Professional output.
+
+The system learns this at **V4** after producing bad output on complex tasks. Realizes: "I need frameworks."
+
+### Level 3: Creative synthesis when needed
+Recognize when standard approaches won't work. "Cure cancer" → realizes existing methods are saturated → convenes virtual expert panel (oncologist, immunologist, data scientist, contrarian) → synthesizes novel approach → applies Level 2 planning → executes.
+
+The system learns this at **V5-V6** after producing derivative solutions. Realizes: "I need original thinking for breakthrough problems."
+
+**Selection logic:** Simple task → Level 1. Complex craft task → Level 2. Novel breakthrough needed → Level 3.
+
+Not every problem needs a round table. But some do.
 
 ***
 
@@ -248,7 +272,7 @@ The future of AI doesn't belong to the labs with the biggest compute. It belongs
 
 ***
 
-## Why this architecture matters
+## Why a semantic foundation to the architecture matters
 
 AI systems today struggle with several hard problems that aren't solved by scaling models or adding more prompts:
 
@@ -407,4 +431,3 @@ For technical deep-dives, see the white papers in `/docs`
 For the philosophical foundation, read the [Firebird Manifesto](https://github.com/JamesLeeStakelum/firebirdos/blob/main/docs/Firebird_Manifesto.pdf)  
 To build it yourself, start with `bootstrapping_specification.txt` and `BOOSTRAPPING_CODING_STANDARDS.md`
 
-***
