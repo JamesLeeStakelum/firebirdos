@@ -4,7 +4,7 @@
 **Last Updated:** December 4, 2025  
 **Status:** Production (85% Neuro-Symbolic Complete)
 
-***
+---
 
 ## Table of Contents
 
@@ -18,127 +18,131 @@
 8. [Roadmap & Maturity](#roadmap--maturity)
 9. [Getting Started](#getting-started)
 
-***
+---
 
 ## The Problem: AI's Trust Crisis
 
 Large Language Models (LLMs) have transformed how we interact with information, but their deployment in high-stakes environments faces four critical barriers:
 
-### 1. **Hallucination & Factual Unreliability**
-LLMs confidently generate plausible-sounding but factually incorrect information. In healthcare, legal, and financial domains, a single hallucinated fact can have catastrophic consequences. Traditional Retrieval-Augmented Generation (RAG) systems mitigate this by retrieving relevant text chunks, but they cannot *verify* the truth of retrieved information or prevent the LLM from fabricating details.
+### 1. Hallucination & Factual Unreliability
 
-### 2. **Lack of Governance & Policy Enforcement**
+LLMs confidently generate plausible-sounding but factually incorrect information. In healthcare, legal, and financial domains, a single hallucinated fact can have catastrophic consequences. Traditional Retrieval-Augmented Generation (RAG) systems mitigate this by retrieving relevant text chunks, but they cannot verify the truth of retrieved information or prevent the LLM from fabricating details.
+
+### 2. Lack of Governance & Policy Enforcement
+
 Enterprises need AI systems that provably comply with regulations (HIPAA, GDPR, SOC2) and internal policies (PII handling, approval workflows, access control). Current AI architectures treat governance as a post-hoc add-on, making compliance audits difficult and policy violations frequent.
 
-### 3. **Semantic Imprecision & Multi-Hop Reasoning Failures**
+### 3. Semantic Imprecision & Multi-Hop Reasoning Failures
+
 Vector-based RAG systems perform "fuzzy" similarity matching. They cannot distinguish between:
 - *bank* (financial institution) vs. *bank* (riverbank)  
 - *cold* weather vs. a *cold* personality  
 
 They also fail at multi-hop reasoning like: "Find the director of *Oppenheimer* → List other movies produced by that director." Each hop loses context, and the AI cannot traverse explicit relationships.
 
-### 4. **Opacity & Unverifiable Reasoning**
-When an LLM answers a question, users cannot see *why* it chose that answer or *which specific facts* it relied on. This "black box" problem blocks adoption in regulated industries that require auditable decision trails.
+### 4. Opacity & Unverifiable Reasoning
 
-***
+When an LLM answers a question, users cannot see why it chose that answer or which specific facts it relied on. This "black box" problem blocks adoption in regulated industries that require auditable decision trails.
+
+---
 
 ## The FirebirdOS Solution: A Neuro-Symbolic Operating System
 
-**FirebirdOS** is a **neuro-symbolic operating system** that combines the flexibility of neural language models with the precision and verifiability of symbolic AI. It provides a complete stack for building trustworthy, governable, and explainable AI systems by adding an intent‑aware “mind layer” that preserves cognitive continuity over time.
+**FirebirdOS** is a **neuro-symbolic operating system** that combines the flexibility of neural language models with the precision and verifiability of symbolic AI. It provides a complete stack for building trustworthy, governable, and explainable AI systems by adding an intent-aware "mind layer" that preserves cognitive continuity over time.
 
 ### Core Philosophy: Design by Mind
 
 FirebirdOS is built on three foundational principles:
 
-1. **Semantic Precision**: Every concept maps to a unique, unambiguous `meaning_id` in the Axiom Lexicon, eliminating polysemy.[1][2]
-2. **Formal Governance**: Policies are first-class primitives (not bolted-on rules), specified in Omega-Code and enforced deterministically.[3][1]
-3. **Verifiable Knowledge with Viewpoint Awareness**: All facts are stored in a provenance-tracked Knowledge Graph where `proven_fact` is distinguished from `reported_claim`, preserving conflicts instead of merging them.[4][1]
+1. **Semantic Precision**: Every concept maps to a unique, unambiguous `meaning_id` in the Axiom Lexicon, eliminating polysemy.
+2. **Formal Governance**: Policies are first-class primitives (not bolted-on rules), specified in Omega-Code and enforced deterministically.
+3. **Verifiable Knowledge with Viewpoint Awareness**: All facts are stored in a provenance-tracked Knowledge Graph where `proven_fact` is distinguished from `reported_claim`, preserving conflicts instead of merging them.
 
 ### What FirebirdOS Is NOT
 
-- **Not a chatbot wrapper**: This is a full operating system for AI reasoning, not a thin layer over GPT.[1]
-- **Not vector-only RAG**: Knowledge is stored in a *structured graph* with explicit relationships, not just embedded text chunks.[4][1]
-- **Not a generic LLM framework**: The architecture enforces neuro-symbolic coupling where symbolic constraints guide neural behavior.[1]
-- **Not stateless**: It maintains a Cognitive Kernel with seven-layer memory that preserves intent, context, and emotional continuity across sessions.[5]
-- **Not centralized cloud**: It runs as inspectable, timestamped executables with plain-text configs, keeping data local-first and user-owned.[5]
+- **Not a chatbot wrapper**: This is a full operating system for AI reasoning, not a thin layer over GPT.
+- **Not vector-only RAG**: Knowledge is stored in a structured graph with explicit relationships, not just embedded text chunks.
+- **Not a generic LLM framework**: The architecture enforces neuro-symbolic coupling where symbolic constraints guide neural behavior.
+- **Not stateless**: It maintains a Cognitive Kernel with seven-layer memory that preserves intent, context, and emotional continuity across sessions.
+- **Not centralized cloud**: It runs as inspectable, timestamped executables with plain-text configs, keeping data local-first and user-owned.
 
-***
+---
 
 ## Three-Layer Architecture
 
 FirebirdOS separates concerns into three distinct, interoperating layers:
 
 ```
-┌─────────────────────────────────────────────────────────────┐
-│  LAYER 1: LLM Neural Intuition Layer                        │
-│  ─────────────────────────────────────                       │
-│  • Flexible language understanding & generation             │
-│  • Learned query planning (next operator prediction)        │
-│  • Uncertainty-aware natural language synthesis             │
-│  • Continuous learning from feedback                         │
-│                                                               │
-│  Tools: OpenRouter, Ollama, fine-tuned adapters             │
-└─────────────────────────────────────────────────────────────┘
-                            ↕
-                  (Neural outputs constrained by
-                   symbolic rules; symbolic gaps
-                   filled by neural learning)
-                            ↕
-┌─────────────────────────────────────────────────────────────┐
-│  LAYER 2: Omega-Code Formal Specification Layer             │
-│  ────────────────────────────────────────────                │
-│  • EBNF-defined formal grammar (machine-verifiable)         │
-│  • 13 atomic primitives (governance, schemas, transitions)  │
-│  • Policy-as-code with GOVERNANCE_RULE primitive            │
-│  • Self-modification via MUTATION_RULE with approval gates  │
-│  • Formal verification hooks (SMT solvers, proof checkers)  │
-│                                                               │
-│  Purpose: The "formally verifiable bridge" between intent   │
-│            and execution                                      │
-└─────────────────────────────────────────────────────────────┘
-                            ↕
-                  (Omega specs compile to
-                   graph schemas, queries, and
-                   policy enforcement rules)
-                            ↕
-┌─────────────────────────────────────────────────────────────┐
-│  LAYER 3: Execution Layer (HopLogic + Axiom Lexicon)        │
-│  ─────────────────────────────────────────────                │
-│  • Axiom Lexicon: 1.7M meaning_ids with tiered abstraction │
-│  • HopLogic VKG: Hub-and-spoke knowledge graph (Kùzu/Neo4j) │
-│  • POV Framework: Epistemic status + viewpoint attribution  │
-│  • Provenance: Edge-level source tracking with confidence   │
-│  • Multi-hop reasoning: Native graph traversal (3-15ms)     │
-│  • HFF/NSP Protocol: Machine-to-machine via TRUST_ELEMENTs  │
-│                                                               │
-│  Purpose: Verifiable, governable, explainable reasoning     │
-└─────────────────────────────────────────────────────────────┘
+┌─────────────────────────────────────────────────────────────────┐
+│  LAYER 1: LLM Neural Intuition Layer                            │
+│  ─────────────────────────────────────                           │
+│  • Flexible language understanding & generation                 │
+│  • Learned query planning (next operator prediction)            │
+│  • Uncertainty-aware natural language synthesis                 │
+│  • Continuous learning from feedback                            │
+│                                                                   │
+│  Tools: OpenRouter, Ollama, fine-tuned adapters                 │
+└─────────────────────────────────────────────────────────────────┘
+                              ↕
+                (Neural outputs constrained by
+                 symbolic rules; symbolic gaps
+                 filled by neural learning)
+                              ↕
+┌─────────────────────────────────────────────────────────────────┐
+│  LAYER 2: Omega-Code Formal Specification Layer                 │
+│  ────────────────────────────────────────────                    │
+│  • EBNF-defined formal grammar (machine-verifiable)             │
+│  • 13 atomic primitives (governance, schemas, transitions)      │
+│  • Policy-as-code with GOVERNANCE_RULE primitive                │
+│  • Self-modification via MUTATION_RULE with approval gates      │
+│  • Formal verification hooks (SMT solvers, proof checkers)      │
+│                                                                   │
+│  Purpose: The "formally verifiable bridge" between intent       │
+│            and execution                                         │
+└─────────────────────────────────────────────────────────────────┘
+                              ↕
+                (Omega specs compile to
+                 graph schemas, queries, and
+                 policy enforcement rules)
+                              ↕
+┌─────────────────────────────────────────────────────────────────┐
+│  LAYER 3: Execution Layer (HopLogic + Axiom Lexicon)            │
+│  ─────────────────────────────────────────────                   │
+│  • Axiom Lexicon: 1.7M meaning_ids with tiered abstraction     │
+│  • HopLogic VKG: Hub-and-spoke knowledge graph (Kùzu/Neo4j)     │
+│  • POV Framework: Epistemic status + viewpoint attribution      │
+│  • Provenance: Edge-level source tracking with confidence       │
+│  • Multi-hop reasoning: Native graph traversal (3-15ms)         │
+│  • HFF/NSP Protocol: Machine-to-machine via TRUST_ELEMENTs      │
+│                                                                   │
+│  Purpose: Verifiable, governable, explainable reasoning         │
+└─────────────────────────────────────────────────────────────────┘
 ```
 
 ### How the Layers Interact
 
-1. **Query Flow (Top → Down)**:
-   - User asks: *"When did Beethoven's deafness begin?"*
-   - **Layer 1 (LLM)**: Breaks into sub-questions, suggests reasoning strategy
-   - **Layer 2 (Omega)**: Formalizes query as Omega `PERCEPTION_MAP` → graph Cypher query
-   - **Layer 3 (Execution)**: Disambiguates "Beethoven" → `ent:beethoven_ludwig_van`, retrieves facts from VKG, returns provenance-tracked results
+#### 1. Query Flow (Top → Down)
+- User asks: *"When did Beethoven's deafness begin?"*
+- **Layer 1 (LLM)**: Breaks into sub-questions, suggests reasoning strategy
+- **Layer 2 (Omega)**: Formalizes query as Omega `PERCEPTION_MAP` → graph Cypher query
+- **Layer 3 (Execution)**: Disambiguates "Beethoven" → `ent:beethoven_ludwig_van`, retrieves facts from VKG, returns provenance-tracked results
 
-2. **Feedback Flow (Bottom → Up)**:
-   - **Layer 3**: Policy violation detected (user tried to delete PII)
-   - **Layer 2**: `GOVERNANCE_RULE` fires, logs violation, blocks action
-   - **Layer 1**: Violation becomes training example; adapter learns to avoid similar requests
+#### 2. Feedback Flow (Bottom → Up)
+- **Layer 3**: Policy violation detected (user tried to delete PII)
+- **Layer 2**: `GOVERNANCE_RULE` fires, logs violation, blocks action
+- **Layer 1**: Violation becomes training example; adapter learns to avoid similar requests
 
-3. **Evolution Flow (Layer 2 Self-Modification)**:
-   - System detects disambiguation accuracy drop below 95%
-   - Omega `MUTATION_RULE` triggers threshold adjustment
-   - `APPROVAL_POLICY` checks safety constraints
-   - If approved: System updates its own configuration, logs change with rationale
+#### 3. Evolution Flow (Layer 2 Self-Modification)
+- System detects disambiguation accuracy drop below 95%
+- Omega `MUTATION_RULE` triggers threshold adjustment
+- `APPROVAL_POLICY` checks safety constraints
+- If approved: System updates its own configuration, logs change with rationale
 
-***
+---
 
 ## Core Components
 
-### 1. **Axiom Lexicon** (Semantic Foundation)
+### 1. Axiom Lexicon (Semantic Foundation)
 
 **Problem Solved**: Polysemy breaks AI reasoning. The word "bank" has 15+ meanings; vectors can't distinguish them.
 
@@ -159,9 +163,9 @@ Query: "bank statement"
 
 📖 [Full Documentation](docs/AXIOM_LEXICON.md)
 
-***
+---
 
-### 2. **Omega-Code** (Formal Specification Layer)
+### 2. Omega-Code (Formal Specification Layer)
 
 **Problem Solved**: LLM-generated specs are informal, ambiguous, and unverifiable. Code generation lacks formal guarantees.
 
@@ -189,13 +193,13 @@ GOVERNANCE_RULE NoPIIDeletion :
    PRIORITY 99 ;
 ```
 
-This Omega spec compiles to an executable policy that **provably** blocks PII deletion attempts.
+This Omega spec compiles to an executable policy that provably blocks PII deletion attempts.
 
 📖 [Full Documentation](docs/OMEGA_SPECIFICATION_LAYER.md)
 
-***
+---
 
-### 3. **HopLogic Knowledge Engine** (Verifiable Memory + Reasoning)
+### 3. HopLogic Knowledge Engine (Verifiable Memory + Reasoning)
 
 **Problem Solved**: Vector RAG has no structure. It can't answer "A → B → C" questions or attribute facts to sources.
 
@@ -206,18 +210,18 @@ This Omega spec compiles to an executable policy that **provably** blocks PII de
 
 **Key Features**:
 
-#### **POV Framework (Point-of-View Attribution)**
+#### POV Framework (Point-of-View Attribution)
 - **Epistemic Status**: `proven_fact` vs. `reported_claim`
 - **Speaker Attribution**: `pov_speaker_label` tracks who said what
 - **Conflict Representation**: Disagreeing sources preserved, not merged
 - **Prevents "He Said, She Said" Errors**: Never conflates plaintiff/defendant testimony
 
-#### **Multi-Hop Reasoning**
+#### Multi-Hop Reasoning
 - Native graph traversal: *"Director of Oppenheimer → Other movies produced"*
 - Bounded k-hop queries with `LIMIT` safeguards
 - 3-15ms latency (Kùzu native storage)
 
-#### **RAG Pipeline (Stages 0-4)**
+#### RAG Pipeline (Stages 0-4)
 1. **Stage 0 (Gatekeeper)**: Resilient LLM intake, query decomposition
 2. **Stage 1 (Disambiguation)**: Two-pass (entity-first, then concept), uses Axiom Lexicon
 3. **Stage 1.5 (Arbitration)**: Resolves near-tie ambiguities via graph micro-probes
@@ -225,8 +229,9 @@ This Omega spec compiles to an executable policy that **provably** blocks PII de
 5. **Stage 3 (Packaging)**: Ranked facts, token-budgeted context
 6. **Stage 4 (Synthesis)**: Grounded answer generation with per-sentence citations
 
-#### **Hub-and-Spoke Schema** (Solves Ontology Explosion)
-Instead of thousands of verb-specific edges (*invented*, *discovered*, *composed*), the verb is a *property* on the hub. Edges use a small set of canonical roles.
+#### Hub-and-Spoke Schema (Solves Ontology Explosion)
+
+Instead of thousands of verb-specific edges (*invented*, *discovered*, *composed*), the verb is a property on the hub. Edges use a small set of canonical roles.
 
 **Traditional (Ontology Explosion)**:
 ```
@@ -245,9 +250,9 @@ Instead of thousands of verb-specific edges (*invented*, *discovered*, *composed
 
 📖 [Full Documentation](docs/HOPLOGIC_KNOWLEDGE_ENGINE.md)
 
-***
+---
 
-### 4. **HFF/NSP Protocol** (Machine-to-Machine Communication)
+### 4. HFF/NSP Protocol (Machine-to-Machine Communication)
 
 **Problem Solved**: JSON APIs have no formal semantics. Systems can't verify message correctness or policy compliance.
 
@@ -265,9 +270,9 @@ Instead of thousands of verb-specific edges (*invented*, *discovered*, *composed
 
 📖 [Protocol Specification](docs/OMEGA_SPECIFICATION_LAYER.md#machine-to-machine-protocol)
 
-***
+---
 
-### 5. **Cognitive Kernel & Memory Architecture** (The "Mind Layer")
+### 5. Cognitive Kernel & Memory Architecture (The "Mind Layer")
 
 **Problem Solved**: AI systems treat each prompt as an isolated transaction, forgetting intent, context, and emotional continuity between sessions.
 
@@ -282,9 +287,9 @@ Instead of thousands of verb-specific edges (*invented*, *discovered*, *composed
 - **Polite Autonomy**: Defaults to suggestion and questioning rather than silent action
 - **Mirror Mode**: Dry-run simulation before high-impact actions with interactive review
 
-**Philosophy**: This is the "mind-like kernel" that makes FirebirdOS a cognitive partner, not just a tool.[5]
+**Philosophy**: This is the "mind-like kernel" that makes FirebirdOS a cognitive partner, not just a tool.
 
-***
+---
 
 ## Advanced Patterns: Neuro-Symbolic Taxonomy Enrichment
 
@@ -302,7 +307,7 @@ Traditional knowledge graphs are static: built once, rarely updated, prone to co
 
 This creates a **self-correcting bootstrap** that incrementally improves semantic coverage while maintaining symbolic control over the final hierarchy.
 
-***
+---
 
 ### Pattern 1: Multi-Model Ensemble with Judge-Synthesis
 
@@ -312,9 +317,9 @@ This creates a **self-correcting bootstrap** that incrementally improves semanti
 
 **Flow**: Rootward Frontier → Parallel Generation (3 models) → Judge Evaluation → Quality Scoring → Accept or Requeue
 
-**Key Innovation**: Judge can create hybrid solutions better than any single model's output.[1]
+**Key Innovation**: Judge can create hybrid solutions better than any single model's output.
 
-***
+---
 
 ### Pattern 2: FAISS-Backed Sense Matching
 
@@ -322,9 +327,9 @@ This creates a **self-correcting bootstrap** that incrementally improves semanti
 
 **Solution**: Two-stage pipeline materializes candidates then queries FAISS index against 1.7M lexicon senses.
 
-**Key Innovation**: Combines FAISS efficiency (narrowing 1.7M→20 candidates) with LLM semantic judgment (filtering to 1-5 true parents).[1]
+**Key Innovation**: Combines FAISS efficiency (narrowing 1.7M→20 candidates) with LLM semantic judgment (filtering to 1-5 true parents).
 
-***
+---
 
 ### Pattern 3: LLM-Based Semantic Validation
 
@@ -332,9 +337,9 @@ This creates a **self-correcting bootstrap** that incrementally improves semanti
 
 **Solution**: Validator LLM acts as semantic filter, accepting only true parent relationships.
 
-**Key Innovation**: Bridges vector similarity and logical taxonomy validation.[1]
+**Key Innovation**: Bridges vector similarity and logical taxonomy validation.
 
-***
+---
 
 ### Pattern 4: Meaning Blueprints (Structured Sense Definitions)
 
@@ -344,9 +349,9 @@ This creates a **self-correcting bootstrap** that incrementally improves semanti
 
 **Blocks**: PARENTS, IMPROVED-GLOSS, MICRO-GLOSS, ESSENCE, NSM-MINI, CANONICAL-LABEL, FORMAL-PREDICATE, SEMROLE-FRAME, ONTOLOGY
 
-**Key Innovation**: Creates embedding-friendly, ontology-aligned, formally grounded definitions.[1]
+**Key Innovation**: Creates embedding-friendly, ontology-aligned, formally grounded definitions.
 
-***
+---
 
 ### Pattern 5: Automated Integration
 
@@ -356,9 +361,9 @@ This creates a **self-correcting bootstrap** that incrementally improves semanti
 
 **Quality Gates**: POS compatibility, acyclicity, semantic coherence, confidence threshold
 
-**Key Innovation**: Closes the loop from neural suggestions → symbolic validation → runtime integration.[1]
+**Key Innovation**: Closes the loop from neural suggestions → symbolic validation → runtime integration.
 
-***
+---
 
 ## Key Differentiators
 
@@ -374,7 +379,9 @@ This creates a **self-correcting bootstrap** that incrementally improves semanti
 | Provenance | File name at best | Edge-level doc/span confidence |
 | Verifiability | None | EBNF-validated Omega specs |
 
-**Bottom Line**: FirebirdOS is the only system that combines semantic precision, formal governance, verifiable reasoning, and safe self-evolution.[1]
+FirebirdOS uniquely combines semantic precision, formal governance, verifiable reasoning, and safe self-evolution—capabilities that vector-only systems cannot provide through scale alone.
+
+---
 
 ### vs. Generic GraphRAG (Microsoft GraphRAG, Neo4j)
 
@@ -387,7 +394,9 @@ This creates a **self-correcting bootstrap** that incrementally improves semanti
 | Epistemic Status | None | proven_fact vs. reported_claim |
 | Formal Specs | Informal docs | Omega-Code with EBNF grammar |
 
-**Bottom Line**: FirebirdOS is the only system that combines semantic precision, formal governance, verifiable reasoning, and safe self-evolution.[1]
+FirebirdOS provides semantic precision and formal governance that GraphRAG implementations lack, making it suitable for regulated industries.
+
+---
 
 ### vs. Orchestration Frameworks (LangChain, LlamaIndex)
 
@@ -399,9 +408,9 @@ This creates a **self-correcting bootstrap** that incrementally improves semanti
 | Verification | None | Formal specifications in Omega |
 | Explainability | Prompt traces | Graph path + Omega trace |
 
-**Bottom Line**: FirebirdOS is the only system that combines semantic precision, formal governance, verifiable reasoning, and safe self-evolution.[1]
+FirebirdOS is an operating system for AI reasoning, not just an orchestration layer—providing architectural guarantees that frameworks cannot offer.
 
-***
+---
 
 ## Use Cases & ROI
 
@@ -415,7 +424,9 @@ This creates a **self-correcting bootstrap** that incrementally improves semanti
 - Provenance tracks exact page/paragraph for every fact
 - Omega policies prevent accidental disclosure of privileged materials
 
-**ROI**: 10x faster discovery, zero hallucinated citations, audit-ready reports[1]
+**ROI**: 10x faster discovery, zero hallucinated citations, audit-ready reports
+
+---
 
 ### 2. Clinical Trials Regulatory Compliance ($200K-$2M annual contracts)
 
@@ -427,7 +438,9 @@ This creates a **self-correcting bootstrap** that incrementally improves semanti
 - VKG provenance links every fact to exact source (CRF page, timestamp)
 - Omega governance blocks unauthorized access to PII/PHI
 
-**ROI**: FDA submission-ready documentation, zero attribution errors, 50% faster regulatory review[1]
+**ROI**: FDA submission-ready documentation, zero attribution errors, 50% faster regulatory review
+
+---
 
 ### 3. Compliance Auditing ($150K-$1M annual contracts)
 
@@ -439,7 +452,9 @@ This creates a **self-correcting bootstrap** that incrementally improves semanti
 - Complete audit trail: Omega trace (who, what, when, why)
 - Provenance shows which data triggered which policy
 
-**ROI**: Pass audits first time, automated compliance reports, zero manual log review[1]
+**ROI**: Pass audits first time, automated compliance reports, zero manual log review
+
+---
 
 ### 4. Technical Support L3 Escalation ($50K-$200K annual contracts)
 
@@ -450,9 +465,9 @@ This creates a **self-correcting bootstrap** that incrementally improves semanti
 - Temporal queries: "Has this error occurred before? When? What fixed it?"
 - Omega `RESOURCE_BOUND` prevents runaway queries in production
 
-**ROI**: 70% reduction in escalation time, verifiable diagnostic chains, knowledge retention captured in VKG[1]
+**ROI**: 70% reduction in escalation time, verifiable diagnostic chains, knowledge retention captured in VKG
 
-***
+---
 
 ## Roadmap & Maturity
 
@@ -480,6 +495,8 @@ This creates a **self-correcting bootstrap** that incrementally improves semanti
 - Zero illegal moves (schema masking enforced)
 - Abstain rate: 10% (uncertainty-aware generation)
 
+---
+
 ### Future Enhancements (Post-100%)
 
 **Q1 2026**:
@@ -497,7 +514,7 @@ This creates a **self-correcting bootstrap** that incrementally improves semanti
 - Formal verification integration (SMT solvers validate Omega specs)
 - Cross-language SDK (Python, Rust, JavaScript clients)
 
-***
+---
 
 ## Getting Started
 
@@ -524,6 +541,8 @@ python tools/graph_explorer.py
 - `docs/OMEGA_SPECIFICATION_LAYER.md`: Formal spec layer
 - `ADDONS.md`: Quick reference for unique components
 
+---
+
 ### For Architects
 
 **Evaluation Checklist**:
@@ -537,6 +556,8 @@ python tools/graph_explorer.py
 - Design Partner Program (2-4 week scoped pilot with success metrics)
 - Technical Deep Dive (schedule architecture review session)
 - White Paper Request (whitepapers/FirebirdOS_TechnicalWhitepaper_v1.pdf)
+
+---
 
 ### For Investors
 
@@ -552,7 +573,7 @@ python tools/graph_explorer.py
 - Only system with viewpoint-aware truth representation
 - Only system with EBNF-validated formal specifications
 
-***
+---
 
 ## Additional Resources
 
@@ -562,9 +583,8 @@ python tools/graph_explorer.py
 - **Community**: Discord / Discussions
 - **Contributing**: `CONTRIBUTING.md`
 
-***
+---
 
 **FirebirdOS: Trust through transparency. Intelligence through structure. Evolution through formal governance.**
 
 *License: Apache 2.0 | Version 1.2 | Production Build: 85% Neuro-Symbolic Complete*
-
