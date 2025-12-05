@@ -427,7 +427,8 @@ The future of AI isn't better prompts or bigger models—it's architectures that
 West Monroe, Louisiana  
 December 5, 2025
 
-For technical deep-dives, see the white papers in `/docs`  
-For the philosophical foundation, read the [Firebird Manifesto](https://github.com/JamesLeeStakelum/firebirdos/blob/main/docs/Firebird_Manifesto.pdf)  
+For technical deep-dives, see the white papers and articles in `/essays`.
+For the philosophical foundation, read the Firebird Manifesto. It's in the essays. You can get a hard copy on Amazon.
 To build it yourself, start with `bootstrapping_specification.txt` and `BOOSTRAPPING_CODING_STANDARDS.md`
+
 
