@@ -1,0 +1,83 @@
+The Omega-Code Atomic Core: Final Proposal
+
+Note on Syntax: This document introduces preliminary, EBNF-like syntax for each inherent language feature and atomic primitive. This syntax is a simplified representation to convey structure and keywords at a high level. A full, rigorous EBNF grammar for Omega-Code will be defined in the comprehensive Technical Specifications document.
+
+Notation Used (EBNF-like):
+<element>: A non-terminal symbol, defined elsewhere (e.g., <Identifier>, <Expression>, or another primitive).
+'KEYWORD': A literal keyword that must appear exactly as shown.
+[ item ]: An optional item (appears zero or one time).
+{ item }: An item that can be repeated zero or more times.
+|: Separates alternative choices.
+(...): Groups items.
+Inherent Language Features (Implicit, No Primitives Needed):
+These are the foundational capabilities that are intrinsic to the Omega-Code itself, analogous to how basic arithmetic is inherent to a calculator. They provide the fundamental scaffolding upon which the primitives operate and compose.
+Syntax & Grammars: The Omega-Code possesses a formally defined, extensible syntax and grammar, capable of self-description via META_DEFINITION_RULE. Its precise definition will be articulated through EBNF.
+Justification: Crucial for unambiguous specification and machine-readability.
+Basic Control Flow: Core constructs like sequential execution, conditional branching (IF/ELSE), and iteration (LOOP) are built-in.
+Syntax:
+IfStatement ::= 'IF' <Condition> 'THEN' <Block> [ 'ELSE' <Block> ] 'END IF'
+LoopStatement ::= 'LOOP' [ 'WHILE' <Condition> | 'FOR' <Variable> 'IN' <Range> ] <Block> 'END LOOP'
+StatementSequence ::= <Statement> { <Statement> }
+Justification: Essential for expressing algorithmic logic.
+Function/Procedure Definition: Mechanisms for encapsulating computational logic and promoting abstraction are native.
+Syntax: FUNCTION <FunctionName> '(' [ <ParameterList> ] ')' [ 'RETURNS' <ReturnType> ] <Block> 'END FUNCTION'
+ParameterList ::= <Parameter> { ',' <Parameter> }
+Parameter ::= <ParameterName> ':' <DataType>
+Justification: Enables modularity and reusability of logic.
+Variable Declaration & Scoping: Standard mechanisms for defining, storing, and managing data are inherent.
+Syntax: ( 'DECLARE' | 'VAR' ) <VariableName> [ ':' <DataType> ] [ 'AS' <InitialValue> ]
+Justification: Fundamental for data management within specifications.
+Module/Namespace System: Provides hierarchical organization for specifications, preventing naming conflicts and aiding in modular design.
+Syntax: MODULE <ModuleName> <Block> 'END MODULE'
+Justification: Supports large-scale system design and radical consolidation.
+Primitive Data Types: Fundamental data representations like Boolean, Integer, Floating-Point, and String are natively supported.
+Syntax: 'BOOLEAN' | 'INTEGER' | 'FLOAT' | 'STRING' (and their literal representations like 'TRUE', 'FALSE', 123, 3.14, "hello").
+Justification: Basis for all information representation.
+Entity Identity: The language intrinsically supports the concept of a unique <EntityID> for any identifiable component, agent, or concept within the system and its environment. This allows distinct addressing and referencing.
+Syntax: <EntityID> ::= <Identifier> (e.g., user_agent, database_instance, process_id)
+Justification: Provides a universal reference mechanism across system components.
+Formal Verification Engine Hooks: The language intrinsically supports linking to and leveraging external formal verification tools, though the specification of verifiable properties is handled by core primitives. This is an architectural feature, not a syntactic construct.
+Justification: Critical for achieving verifiable design.
+The 13 Atomic Core Primitives:
+Part A: Foundational Semantics & Constraints (4 Primitives)
+CONTEXT_RULE(ContextID, Modality: Set<ModalityType>, IncoherenceTolerance: Optional<ToleranceValue>): Defines a formal context for reasoning, specifying its modalities (e.g., temporal, probabilistic) and tolerance for inconsistency. ModalityTypes are extensible via META_DEFINITION_RULE.
+Syntax: CONTEXT_RULE <ContextID> : MODALITY { <ModalityType> } [ INCOHERENCE_TOLERANCE <ToleranceValue> ]
+Justification: This is the irreducible definition of how meaning and inference operate within a bounded logical scope. It allows for formal declaration of the reasoning paradigm.
+TEMPORAL_RELATION(RelationID, SubjectA: EntityID, SubjectB: EntityID, Type: TemporalRelationTypeID, IntervalA: Optional<IntervalDefinitionID>, IntervalB: Optional<IntervalDefinitionID>): Defines a fundamental temporal ordering or relationship between any two entities or events. TemporalRelationTypeID and IntervalDefinitionID are extensible via META_DEFINITION_RULE.
+Syntax: TEMPORAL_RELATION <RelationID> : SUBJECT_A <EntityID> , SUBJECT_B <EntityID> , TYPE <TemporalRelationTypeID> [ INTERVAL_A <IntervalDefinitionID> ] [ INTERVAL_B <IntervalDefinitionID> ]
+Justification: This is the irreducible definition of sequence, duration, and co-occurrence, fundamental to causality, planning, and real-time systems.
+RESOURCE_BOUND(BoundID, Subject: EntityID, Type: ResourceTypeID, Metric: MetricID, Threshold: Quantity, ViolationPolicy: PolicyID): Declares a formal limit on a quantifiable resource associated with an entity. ResourceTypeID and MetricID are extensible via META_DEFINITION_RULE.
+Syntax: RESOURCE_BOUND <BoundID> : SUBJECT <EntityID> , TYPE <ResourceTypeID> , METRIC <MetricID> , THRESHOLD <Quantity> , VIOLATION_POLICY <PolicyID>
+Justification: This is the irreducible definition of scarcity, capacity, and resource limits, essential for modeling physical and computational realism, from energy consumption to memory usage.
+ENVIRONMENT_INTERFACE_POINT(InterfaceID, Subject: EntityID, ExternalReferent: EntityID, InteractionType: InteractionTypeID, DataSchema: DataSchemaID, UncertaintyModel: Optional<ModelID>): Defines an atomic point of interaction between a system's internal entity and an external entity/phenomenon, specifying the nature of the interaction and the type of data exchanged. InteractionTypeID is extensible via META_DEFINITION_RULE. DataSchema refers to a DATA_TYPE_SCHEMA.
+Syntax: ENVIRONMENT_INTERFACE_POINT <InterfaceID> : SUBJECT <EntityID> , EXTERNAL_REFERENT <EntityID> , INTERACTION_TYPE <InteractionTypeID> , DATA_SCHEMA <DataSchemaID> [ UNCERTAINTY_MODEL <ModelID> ]
+Justification: This is the irreducible definition of how any system senses, acts upon, or communicates with its environment, at its most fundamental boundary.
+Part B: Atomic System Constructs (3 Primitives)
+DATA_TYPE_SCHEMA(SchemaID, Definition: SchemaDefinition, SemanticProperties: Optional<List<PropertyID>>): Provides the formal schema for defining structured data types and their intrinsic semantic properties. SchemaDefinition uses inherent primitive types and composition. PropertyID is extensible via META_DEFINITION_RULE.
+Syntax: DATA_TYPE_SCHEMA <SchemaID> : DEFINITION <SchemaDefinition> [ SEMANTIC_PROPERTIES { <PropertyID> } ]
+Justification: This is the irreducible definition of internal conceptual structure and information representation, allowing for the creation of any complex data or knowledge model.
+STATE_TRANSITION(TransitionID, Subject: EntityID, Precondition: PredicateID, Postcondition: PredicateID, Action: ActionID, ReversionProtocol: Optional<ProtocolID>): Defines an atomic change in the state of an entity. PredicateID is a formal logical expression. ActionID refers to an inherent language operation. ReversionProtocol specifies how the transition might be undone.
+Syntax: STATE_TRANSITION <TransitionID> : SUBJECT <EntityID> , PRECONDITION <PredicateID> , POSTCONDITION <PredicateID> , ACTION <ActionID> [ REVERSION_PROTOCOL <ProtocolID> ]
+Justification: This is the irreducible definition of change, computation, and causality within the system. Every operation, failure, or evolution is fundamentally a sequence of these transitions.
+TRUST_ELEMENT(ElementID, Subject: EntityID, Predicate: PredicateID, Object: EntityID, ProofProtocol: Optional<ProtocolID>): Defines an atomic, verifiable assertion about one entity's relationship or property concerning another. ProofProtocol specifies the method of verification.
+Syntax: TRUST_ELEMENT <ElementID> : SUBJECT <EntityID> , PREDICATE <PredicateID> , OBJECT <EntityID> [ PROOF_PROTOCOL <ProtocolID> ]
+Justification: This is the irreducible definition of a verifiable claim, forming the absolute basis of security, reputation, and distributed trust mechanisms.
+Part C: Meta-Level Control & Evolution (6 Primitives)
+GOVERNANCE_RULE(RuleID, Scope: ScopeID, Predicate: PredicateID, EnforcementContext: ContextID, Priority: Optional<Value>): Defines an atomic normative statement (obligation, permission, prohibition) applicable within a specific scope. EnforcementContext dictates how the rule is applied.
+Syntax: GOVERNANCE_RULE <RuleID> : SCOPE <ScopeID> , PREDICATE <PredicateID> , ENFORCEMENT_CONTEXT <ContextID> [ PRIORITY <Value> ]
+Justification: This is the irreducible definition of control and normativity, forming the fundamental building block for all policies, ethical guidelines, and system constraints.
+SELF_REFERENCE_POINT(PointID, TargetType: TargetTypeID, AccessProtocol: ProtocolID): Defines a formal, addressable point within the system's own definition (e.g., its grammar, schemas, rule sets) or runtime state for introspection or modification. TargetTypeID is extensible via META_DEFINITION_RULE.
+Syntax: SELF_REFERENCE_POINT <PointID> : TARGET_TYPE <TargetTypeID> , ACCESS_PROTOCOL <ProtocolID>
+Justification: This is the irreducible foundation for meta-cognition, enabling the system to introspect its own structure and behavior, crucial for self-awareness and interpretability.
+MUTATION_RULE(RuleID, TargetReference: SelfReferencePointID, Condition: PredicateID, TransformAction: ActionID, ApprovalPolicy: Optional<PolicyID>): Defines an atomic rule for the system to formally modify itself. TargetReference points to a SELF_REFERENCE_POINT. ApprovalPolicy specifies governance for the change.
+Syntax: MUTATION_RULE <RuleID> : TARGET_REFERENCE <SelfReferencePointID> , CONDITION <PredicateID> , TRANSFORM_ACTION <ActionID> [ APPROVAL_POLICY <PolicyID> ]
+Justification: This is the irreducible primitive for self-modification and evolution, enabling dynamic adaptation, self-repair, and learning-driven changes.
+PERCEPTION_MAP(MapID, InputInterface: InterfaceID, OutputSchema: DataSchemaID, TransformationFunction: FunctionID, UncertaintyModel: Optional<ModelID>): Defines the atomic transformation from raw input received via an ENVIRONMENT_INTERFACE_POINT into structured internal concepts. TransformationFunction refers to an inherent language function.
+Syntax: PERCEPTION_MAP <MapID> : INPUT_INTERFACE <InterfaceID> , OUTPUT_SCHEMA <DataSchemaID> , TRANSFORMATION_FUNCTION <FunctionID> [ UNCERTAINTY_MODEL <ModelID> ]
+Justification: This is the irreducible primitive for grounding a system's internal representations in external reality (sensing).
+LEARNING_AXIOM(AxiomID, InputSchema: DataSchemaID, OutputSchema: DataSchemaID, ObjectiveMetric: MetricID, ConstraintSet: List<ResourceBoundID>, KnowledgeUpdateRule: RuleID): Defines the atomic contract for a learning process: what it consumes, what it produces, what it optimizes, its resource limits, and how it updates internal knowledge. KnowledgeUpdateRule refers to a STATE_TRANSITION or MUTATION_RULE.
+Syntax: LEARNING_AXIOM <AxiomID> : INPUT_SCHEMA <DataSchemaID> , OUTPUT_SCHEMA <DataSchemaID> , OBJECTIVE_METRIC <MetricID> , CONSTRAINT_SET { <ResourceBoundID> } , KNOWLEDGE_UPDATE_RULE <RuleID>
+Justification: This is the irreducible primitive for defining how systems acquire and integrate new knowledge, enabling broad adaptation and intelligence without specifying particular algorithms.
+META_DEFINITION_RULE(RuleID, TargetType: TargetTypeID, DefinitionSchema: DataSchemaID, ValidationProtocol: ProtocolID): Defines an atomic rule for extending the Omega-Code's own meta-level vocabulary (e.g., defining new ModalityTypes, ResourceTypeIDs, InteractionTypeIDs). DefinitionSchema provides the formal structure for the new definition.
+Syntax: META_DEFINITION_RULE <RuleID> : TARGET_TYPE <TargetTypeID> , DEFINITION_SCHEMA <DataSchemaID> , VALIDATION_PROTOCOL <ProtocolID>
+Justification: The ultimate primitive for future-proofing, enabling the language to formally describe and extend its own fundamental concepts and types, adapting to unforeseen paradigms.
