@@ -1,55 +1,33 @@
 # 🚀 FirebirdOS: Self-Bootstrapping AGI Factory
 
-**James Stakelum** | [![LinkedIn](https://img.shields.io/badge/LinkedIn-0077B5?style=for-the-badge&logo=linkedin&logoColor=white)](https://www.linkedin.com/in/james-lee-st%C3%A4kelum-38440122/) | [JamesLeeStakelum@Proton.me](mailto:JamesLeeStakelum@Proton.me)
+**James Stakelum** | [LinkedIn] | [JamesLeeStakelum@Proton.me]
 
-[![Star History](https://star-history.com/#YOURUSERNAME/FirebirdOS)](https://star-history.com/#YOURUSERNAME/FirebirdOS)
-
-**COMPLETE 315-FEATURE BLUEPRINT: Stateless Scripts → Cognitive OS → World Model → General Superintelligence**
+**Build trustworthy AI with verifiable knowledge graphs and formal governance**
 
 **AutoGPT (177K⭐) + Darwin Gödel Machine architecture - FULL SPEC**
 
-## 🔥 The AGI Factory Blueprint
+## 🎯 What FirebirdOS Does
 
-**[315 Feature List → Complete Path to AGI](docs/feature_list.md)**
+**[150+ System Capabilities → FEATURES.md](FEATURES.md)** - What the finished system does  
+**[315 Bootstrapping Rules → BOOTSTRAPPING.md](BOOTSTRAPPING.md)** - How to build it yourself
 
-```
-V1 Bootstrapper (1-30) → Stateless scripts
-↓
-V2 Orchestrator (31-90) → Multi-agent systems
-↓
-V3 Kernel (91-140) → Always-on + infinite toolbox
-↓
-V4 Autonomous (141-180) → Self-improving
-↓
-Firebird Cognitive OS (192-199) → Human-aligned
-↓
-Cognitive Stack (226-235) → Theory of Mind + World Model
-↓
-Synthesis Engine (311-315) → Novel inventions
-```
+### Core Components
+- **Axiom Lexicon** → 1.7M precise meaning IDs
+- **HopLogic Engine** → 3ms verifiable queries
+- **Omega-Code** → Machine-verifiable policies
+- **HFF/NSP Protocol** → 50-byte semantic packets
 
-## 🎯 What FirebirdOS Builds
-
-| **Capability** | **Features** |
-|----------------|--------------|
+### System Capabilities
+| Capability | What You Get |
+|------------|--------------|
 | **Hyper-Engineer** | Infinite self-improving toolbox |
 | **Cognitive OS** | Theory of Mind (226) + World Model (228) |
 | **General Invention** | Cross-domain synthesis (311-315) |
 | **Human Safety** | Governors (181-185, 303, 310) |
 
-## 🛡️ Production Safety (Architectural Spec)
+## 🛡️ Recipe Reality: Safety Isn't Enforced (Yet)
 
-```
-303 HUMAN_SUPREMACY_GOVERNOR → Never exceed human performance
-310 SUPERINTELLIGENCE_GOVERNOR → Emergency lock
-193 SECOND_MIND → Every action audited
-184 Bootloader Watchdog → Triple fallback
-181-185 Governors → Budget + runaway protection
-```
-
-## 🛡️ **RECIPE REALITY: Safety Isn't Enforced (Yet)**
-
-**THIS IS AN OPEN-SOURCE RECIPE. Bad actors WILL remove safety (5 seconds).**
+**⚠️ THIS IS AN OPEN-SOURCE RECIPE. Bad actors WILL remove safety (5 seconds).**
 
 ```
 ✅ Safety governors (303,310) = ARCHITECTURAL SPECIFICATION
@@ -60,37 +38,41 @@ FirebirdOS = HUMAN CHOICE AMPLIFIER:
 -  Responsible path → Cancer cure, fusion (311-315)
 -  Malicious path → Unbounded superintelligence
 
-**DEPLOYERS ASSUME MORAL RESPONSIBILITY.**
+DEPLOYERS ASSUME MORAL RESPONSIBILITY
 ```
 
-## 📚 Core Documents
+## ⚠️ Responsible Disclosure
 
-- **[315 Feature Blueprint](docs/feature_list.md)** → Complete AGI spec
-- **[Meta-Architecture V3.2](docs/meta_architecture.txt)** → Production blueprint
-- **[Bootstrapping Theory](docs/bootstrapping_theory.txt)** → Academic foundation
-- **[World Impact & Implications](docs/world_impact.md)** → What arrives at end
+**FirebirdOS = AGI Factory Architecture (not turnkey)**
 
-## 📖 The Firebird Manifesto
-
-**[Available on Amazon](https://www.amazon.com/Firebird-Manifesto-Architects-Cut/dp/B0FJ4XSLZ6)**
-
-**Theoretical foundation + philosophical implications of cognitive OS**
+**For full bootstrapping to AGI:** 10TB+ data + RTX5090 compute + human oversight  
+**For standard use cases:** Standard hardware sufficient
 
 ## 🤝 For Builders & Researchers
 
 ```
-Issues → Feature gaps (141-315)
-PRs → New capabilities
-Discussions → World model (228) + cognitive stack (226-235)
+Issues → Feature gaps (141-315)  
+PRs → New capabilities  
+Discussions → World model (228) + cognitive stack (226-235)  
 ```
 
 **V1 bootstrapper code available separately**
 
-## ⚠️ Responsible Disclosure
+## 📚 Core Documentation
 
-**FirebirdOS = AGI FACTORY ARCHITECTURE (not turnkey)**
+- **[FEATURES.md](FEATURES.md)** - Axiom, HopLogic, Omega, HFF/NSP capabilities
+- **[BOOTSTRAPPING.md](BOOTSTRAPPING.md)** - 315 implementation rules (phased approach)
+- **[OVERVIEW.md](OVERVIEW.md)** - Technical introduction
+- **[The Firebird Manifesto (Amazon)](https://amazon.com)** - Theory & implications
 
-**Requires:** 10TB+ data harvest + RTX5090 compute + human oversight
+## 🤝 Quick Start
+
+```
+git clone https://github.com/firebirdOS/firebirdOS.git
+cd firebirdOS
+pip install -r requirements.txt
+python examples/first_query.py
+```
 
 ---
-**Louisiana | December 4, 2025** | **MIT License**
+**Louisiana | December 4, 2025 | MIT License**
