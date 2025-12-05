@@ -16,12 +16,14 @@
 11. **Security-by-design** - Injection defense, secrets, rate limits, audits.
 12. **Anti-overengineering** - Simpler working > complex perfect.
 
-**V3.1 PRODUCTION MANDATES** (NEW)
+**V5 PRODUCTION MANDATES** (NEW)
 13. **FAILSAFE CHAIN** - Triple fallback for ALL critical components (bootloader/kernel/tools).
 14. **SANDBOX MANDATORY** - New toolbox tools: <30s timeout, <512MB RAM, no-net default.
 15. **BUDGET ENFORCEMENT** - Daily/hourly limits: LLM calls(100), builds(3), toolbox(1GB).
 16. **CONTRARIAN JUDGE** - MMS requires 1 judge arguing AGAINST majority opinion.
 17. **TOOLBOX GC** - Quarterly: delete unused(90+ days AND <5 uses), non-critical only.
+
+---
 
 ## **II. SPEC DESIGN DISCIPLINE** (18-27)
 
@@ -36,6 +38,8 @@
 25. Reproducibility artifacts - Intermediates saved for CICD.
 26. Graceful degradation - Handle missing deps with fallbacks.
 27. requirements.txt freeze - Exact versions to prevent drift.
+
+---
 
 ## **III. LLM INTERACTION** (28-42)
 
@@ -56,6 +60,8 @@
 41. ASCII-primary - Minimal UTF-8.
 42. No emojis/symbols.
 
+---
+
 ## **IV. RESPONSE PROCESSING** (43-49)
 
 **Normalize for reliability**
@@ -66,6 +72,8 @@
 47. ENDREPLY signaling.
 48. Max iterations.
 49. Empty output termination.
+
+---
 
 ## **V. GENERATION ORCHESTRATION** (50-61)
 
@@ -82,6 +90,8 @@
 59. Multi-stage pipelines.
 60. Dedup policies.
 61. Provenance metadata.
+
+---
 
 ## **VI. ARCHITECTURE PATTERNS** (62-83)
 
@@ -109,7 +119,9 @@
 82. Edge case coverage.
 83. Lib collision testing.
 
-## **VII. PRODUCTION OPERATIONS** (84-101)
+---
+
+## **VII. PRODUCTION OPERATIONS** (84-106)
 
 **Testing (84-87)**
 84. Contract testing.
@@ -131,25 +143,22 @@
 96. Distributed tracing.
 97. Health checks.
 
-**Operations (98-101)**
+**Operations (98-106)**
 98. Containerization.
 99. Config as code.
 100. Graceful rollback.
 101. Blue-green deployment.
+102. Capacity planning.
+103. Disaster recovery.
+104. Incident response.
+105. Performance benchmarking.
+106. Technical debt tracking.
 
-**IX. FIREBIRD MANDATES** (107-112 NEW)
+---
 
-107. **FIRESCRIPT REQUIRED** - toolbox192+.exe format, YAML contracts only
-108. **SECOND MIND EVERY TASK** - Audit vs TTD intent (193), <90% → retry/ask
-109. **TTD PERSISTENCE** - SQLite cognitive_threads table mandatory (194)
-110. **MIRROR MODE ≥80% RISK** - Pre-simulate ethical/emotional impact (195)
-111. **WINDOWS 11 NATIVE** - .exe only, no Python subprocess, PowerShell bootstrap
-112. **COGNITIVE HYGIENE** - Thread decay, relationship cascades, weekly meta-rules review
+## **VIII. MANDATORY SPEC TEMPLATE** (10 Sections)
 
-**X. UPDATED SPEC TEMPLATE** (Add sections 9-10)
-
-
-## **VIII. MANDATORY SPEC TEMPLATE** (8 Sections)
+Every technical specification must include these sections:
 
 ```
 1. SYSTEMS OVERVIEW
@@ -180,27 +189,77 @@
      * TEST_006_JUDGE_COLLUSION
      * TEST_007_BOOTLOADER_DEATH
 
-7. ZeroMQ IPC Plan
+7. ZeroMQ IPC PLAN
+   - Message bus architecture
+   - IPC protocols and patterns
 
-8. FAILURE SAFEGUARDS (V3.1)
-   - Triple fallback chain: v4.1→v4.0→v1.0
+8. FAILURE SAFEGUARDS (V5)
+   - Triple fallback chain: v6→v5→v1
    - Sandbox checklist: <30s, <512MB, no-net
    - Budgets: LLM=100/day, builds=3/day, toolbox=1GB
    - GC policy: 90days+<5uses quarterly
    - Contrarian judge: weekly rotation schedule
 
-9. **COGNITIVE THREADS** - TTD table schema + relationship graph
-10. **FIREBIRD SAFEGUARDS** - Mirror thresholds, Second Mind audit, Perf Governor limits
+9. COGNITIVE THREADS (V6 Firebird)
+   - TTD table schema + relationship graph
+   - Cognitive thread lifecycle
+   - Emotional tone tracking
 
-
+10. FIREBIRD SAFEGUARDS (V6)
+    - Mirror thresholds (risk ≥80%)
+    - Second Mind audit requirements
+    - Performance Governor limits
+    - Relationship cascade rules
 ```
 
-## **IX. V3.1 DEPENDENCY RULE**
+---
 
+## **IX. FIREBIRD MANDATES** (107-112)
+
+**V6 Cognitive OS Requirements**
+
+107. **FIRESCRIPT REQUIRED** - toolbox192+.exe format, YAML contracts only
+108. **SECOND MIND EVERY TASK** - Audit vs TTD intent (193), <90% → retry/ask
+109. **TTD PERSISTENCE** - SQLite cognitive_threads table mandatory (194)
+110. **MIRROR MODE ≥80% RISK** - Pre-simulate ethical/emotional impact (195)
+111. **WINDOWS 11 NATIVE** - .exe only, no Python subprocess, PowerShell bootstrap
+112. **COGNITIVE HYGIENE** - Thread decay, relationship cascades, weekly meta-rules review
+
+---
+
+## **X. V5 DEPENDENCY RULES**
+
+**Core Dependencies (Required)**
 ```
-ONNX Runtime - Embeddings without collisions
-sentence-transformers - KNOWN lib conflicts/crashes → AVOID
+ONNX Runtime       - Embeddings without collisions
 SQLite/Kuzu/ChromeDB - Free, embedded, reliable
-ZeroMQ - Battle-tested IPC
+ZeroMQ             - Battle-tested IPC
+Python stdlib      - Maximize built-in usage
 ```
 
+**Avoided Dependencies (Known Issues)**
+```
+sentence-transformers - KNOWN lib conflicts/crashes → AVOID
+Complex regex libs    - Use simple patterns instead
+Heavy ML frameworks   - ONNX models preferred
+Cloud-only services   - Local-first architecture
+```
+
+**Dependency Approval Checklist**
+- [ ] No known collisions with existing deps
+- [ ] License compatible (MIT/Apache/BSD preferred)
+- [ ] Actively maintained (commits within 6 months)
+- [ ] Cross-platform support (Windows/Linux/macOS)
+- [ ] Minimal transitive dependencies
+- [ ] Test coverage >80%
+- [ ] Security scan passed
+
+---
+
+**Document Metadata:**
+
+- **Version:** 3.2
+- **Last Updated:** 2025-12-05
+- **Total Rules:** 112
+- **Target:** Agentic coding systems + human developers
+- **Related:** meta_architecture.txt, bootstrapping_specification.txt, feature_list.txt
